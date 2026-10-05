@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { _electron, type ElectronApplication } from 'playwright';
@@ -53,11 +53,15 @@ try {
     await page.getByRole('button', { name: /ZET-2 Packaged MCP uses the desktop workspace/ }).waitFor();
   } finally { await client.close(); }
   await page.getByRole('button', { name: 'Settings & backups' }).click();
-  const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Export backup', exact: true }).click();
-  const download = await downloadPromise;
   const backupPath = join(directory, 'verified-backup.json');
-  await download.saveAs(backupPath);
+  // Exercise the actual Electron download, directing its native save prompt into
+  // the disposable workspace. This does not claim manual save-dialog coverage.
+  await app.evaluate(({ session }, path) => {
+    session.defaultSession.once('will-download', (_event, item) => item.setSavePath(path));
+  }, backupPath);
+  await page.getByRole('button', { name: 'Export backup', exact: true }).click();
+  for (let attempt = 0; attempt < 100 && !existsSync(backupPath); attempt++) await new Promise(resolve => setTimeout(resolve, 50));
+  assert.ok(existsSync(backupPath), 'Native Electron backup download should create a file');
   const exported = JSON.parse(readFileSync(backupPath, 'utf8'));
   assert.equal(exported.issues.length, 2);
   assert.ok(!readFileSync(backupPath, 'utf8').includes('token'));

@@ -65,7 +65,8 @@
       "target": [
         "zip"
       ],
-      "icon": "build/icon.icns"
+      "icon": "build/icon.icns",
+      "identity": "-"
     },
     "win": {
       "target": [
