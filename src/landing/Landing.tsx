@@ -1,139 +1,816 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, BarChart3, Check, CheckCheck, ChevronDown, Circle, CircleCheck, CircleDashed, CircleDot, Code2, Command, Download, FileText, Flag, FolderKanban, HardDrive, Inbox, Laptop, Layers, ListTodo, LockKeyhole, MessageSquare, MoreHorizontal, Plus, Search, Settings2, Sparkles, Terminal, UserRound, UsersRound } from 'lucide-react';
-import './landing.css';
+import { useState } from "react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  ChevronDown,
+  CircleCheck,
+  CircleDashed,
+  CircleDot,
+  Code2,
+  Command,
+  Download,
+  FileText,
+  FolderKanban,
+  HardDrive,
+  Inbox,
+  Layers,
+  LayoutGrid,
+  List,
+  MoreHorizontal,
+  Plus,
+  Search,
+  Terminal,
+} from "lucide-react";
+import "./landing.css";
 
-const repository = 'https://github.com/microyee-ai/zettel';
-
-function Brand({ light = false }: { light?: boolean }) {
-  return <span className={`landing-brand${light ? ' landing-brand-light' : ''}`}><img src="/brand/zettel-mark.svg" width="34" height="34" alt="" /><span>zettel</span></span>;
-}
-
-const sampleColumns = [
-  { name: 'To do', className: 'todo', tickets: [
-    { id: 'ZET-12', title: 'Give new ideas a place to land', label: 'Product', color: 'violet', initials: 'AL', priority: 2 },
-    { id: 'ZET-14', title: 'Write a launch story worth reading', label: 'Launch', color: 'peach', initials: 'JS', priority: 1 },
-  ] },
-  { name: 'In progress', className: 'progress', tickets: [
-    { id: 'ZET-08', title: 'Make the first five minutes feel great', label: 'Experience', color: 'violet', initials: 'AL', priority: 3 },
-    { id: 'ZET-11', title: 'Connect the little details', label: 'Engineering', color: 'blue', initials: 'MK', priority: 2 },
-  ] },
-  { name: 'Done', className: 'done', tickets: [
-    { id: 'ZET-03', title: 'Find our visual direction', label: 'Design', color: 'sage', initials: 'JS', priority: 1 },
-    { id: 'ZET-06', title: 'Set up the project workspace', label: 'Engineering', color: 'blue', initials: 'MK', priority: 1 },
-  ] },
+const repository = "https://github.com/microyee-ai/zettel";
+const releaseTag = "v0.1.0-alpha.2";
+const releaseUrl = `${repository}/releases/tag/${releaseTag}`;
+const sourceGuide = `${repository}/blob/${releaseTag}/docs/local-runtime.md`;
+const tickets = [
+  {
+    id: "ZET-24",
+    title: "Design the first-run experience",
+    status: "progress",
+    priority: "High",
+    project: "Workspace launch",
+    label: "Design",
+    description:
+      "Make the first five minutes feel effortless. A clear starting point, a useful example, and a workspace that gets out of the way.",
+  },
+  {
+    id: "ZET-23",
+    title: "Connect tickets to project notes",
+    status: "progress",
+    priority: "Medium",
+    project: "Workspace launch",
+    label: "Product",
+    description:
+      "Keep the decisions behind the work close to the tickets. Link project notes directly from the workspace.",
+  },
+  {
+    id: "ZET-22",
+    title: "Add keyboard navigation",
+    status: "todo",
+    priority: "High",
+    project: "Workspace launch",
+    label: "Experience",
+    description:
+      "Move through the workspace with the keyboard. Make focus visible and keep common actions close.",
+  },
+  {
+    id: "ZET-21",
+    title: "Write the release checklist",
+    status: "todo",
+    priority: "Medium",
+    project: "Workspace launch",
+    label: "Release",
+    description:
+      "Collect the release checks, install instructions, and known limitations in one place before publishing.",
+  },
+  {
+    id: "ZET-20",
+    title: "Verify backup and restore",
+    status: "done",
+    priority: "High",
+    project: "Workspace launch",
+    label: "Engineering",
+    description:
+      "Export a workspace, restore it in a fresh session, and verify tickets, notes, and relationships.",
+  },
+  {
+    id: "ZET-19",
+    title: "Define the project milestones",
+    status: "done",
+    priority: "Medium",
+    project: "Workspace launch",
+    label: "Product",
+    description:
+      "Give the project a clear outcome and an achievable first cycle.",
+  },
 ];
+type SampleTicket = (typeof tickets)[number];
 
-function Priority({ level }: { level: number }) {
-  return <span className="landing-priority" aria-hidden="true">{[1, 2, 3].map(value => <i className={value <= level ? 'active' : ''} key={value} />)}</span>;
+function Status({ status }: { status: string }) {
+  const Icon =
+    status === "done"
+      ? CircleCheck
+      : status === "progress"
+        ? CircleDot
+        : CircleDashed;
+  return (
+    <Icon
+      size={15}
+      className={`lp-status lp-status-${status}`}
+      aria-hidden="true"
+    />
+  );
 }
-
-function WorkbenchPreview() {
-  return <div className="landing-workbench-wrap">
-    <div className="landing-workbench" role="img" aria-label="Sample Zettel workspace showing six product launch tickets in To do, In progress, and Done columns.">
-      <div className="landing-window-chrome" aria-hidden="true"><div className="landing-window-dots"><i /><i /><i /></div><span><LockKeyhole size={10} /> Your workspace, your space</span><span className="landing-window-shortcut"><Command size={10} /> K</span></div>
-      <div className="landing-preview-body" aria-hidden="true">
-        <aside className="landing-preview-sidebar">
-          <div className="landing-preview-workspace"><span className="landing-studio-icon">f.</span><span>Forma studio</span><ChevronDown size={11} /></div>
-          <div className="landing-preview-search"><Search size={12} /><span>Search anything</span><span>⌘ K</span></div>
-          <div className="landing-preview-nav"><span><Inbox size={13} /> Inbox <small>3</small></span><span><UserRound size={13} /> My work</span></div>
-          <p className="landing-preview-nav-label">Workspace</p>
-          <div className="landing-preview-nav"><span><FolderKanban size={13} /> Projects</span><span><Layers size={13} /> Cycles</span><span><FileText size={13} /> Notes</span></div>
-          <p className="landing-preview-nav-label">Your projects <Plus size={10} /></p>
-          <div className="landing-preview-nav"><span className="selected"><span className="landing-project-dot" /> Product launch</span><span><span className="landing-project-dot sage" /> Website refresh</span></div>
-          <div className="landing-preview-sidebar-footer"><span className="landing-local-dot" /> Saved on this device <Settings2 size={11} /></div>
-        </aside>
-        <div className="landing-preview-main">
-          <div className="landing-preview-breadcrumb"><span>Projects <span>/</span> Product launch</span><MoreHorizontal size={15} /></div>
-          <div className="landing-preview-title"><div><span className="landing-preview-project-icon"><Flag size={17} /></span><h3>Product launch</h3><span className="landing-preview-active">In progress</span></div><p>Good ideas. A little focus. Something worth shipping.</p></div>
-          <div className="landing-preview-toolbar"><div><span className="selected"><ListTodo size={12} /> Board</span><span><BarChart3 size={12} /> Overview</span></div><span className="landing-preview-add"><Plus size={12} /> New ticket</span></div>
-          <div className="landing-preview-board">
-            {sampleColumns.map(column => <div className={`landing-preview-column ${column.className}`} key={column.name}>
-              <div className="landing-preview-column-title"><span>{column.className === 'done' ? <CircleCheck size={12} /> : column.className === 'progress' ? <CircleDot size={12} /> : <Circle size={12} />}{column.name}<small>2</small></span><Plus size={11} /></div>
-              {column.tickets.map(ticket => <div className="landing-preview-ticket" key={ticket.id}><div className="landing-preview-ticket-meta"><span>{ticket.id}</span><MoreHorizontal size={12} /></div><p>{ticket.title}</p><span className={`landing-preview-label ${ticket.color}`}>{ticket.label}</span><div className="landing-preview-ticket-footer"><Priority level={ticket.priority} /><span className={`landing-preview-avatar avatar-${ticket.initials.toLowerCase()}`}>{ticket.initials}</span></div></div>)}
-              <div className="landing-preview-add-ticket"><Plus size={11} /> Add ticket</div>
-            </div>)}
+function Brand() {
+  return (
+    <span className="lp-brand">
+      <img src="/brand/zettel-mark.svg" width="23" height="23" alt="" />
+      <span>zettel</span>
+    </span>
+  );
+}
+function ProductPreview() {
+  const [view, setView] = useState<"list" | "board">("list");
+  const [selected, setSelected] = useState<SampleTicket>(tickets[0]);
+  return (
+    <div className="lp-preview" aria-label="Interactive sample workspace">
+      <aside className="lp-preview-nav" aria-label="Sample navigation">
+        <div className="lp-preview-brand">
+          <img src="/brand/icon.svg" width="22" height="22" alt="" />
+          <strong>Studio workspace</strong>
+          <ChevronDown size={12} />
+        </div>
+        <div className="lp-preview-search">
+          <Search size={14} />
+          <span>Search</span>
+          <kbd>/</kbd>
+        </div>
+        <span>
+          <Inbox size={15} /> Overview
+        </span>
+        <span className="lp-preview-nav-active">
+          <Layers size={15} /> Tickets <small>6</small>
+        </span>
+        <span>
+          <FolderKanban size={15} /> Projects
+        </span>
+        <span>
+          <CircleDashed size={15} /> Cycles
+        </span>
+        <span>
+          <FileText size={15} /> Notes
+        </span>
+        <p>Projects</p>
+        <span>
+          <i className="lp-project-dot" /> Workspace launch
+        </span>
+        <div className="lp-preview-local">
+          <HardDrive size={13} /> Local workspace
+        </div>
+      </aside>
+      <div className="lp-preview-main">
+        <div className="lp-preview-heading">
+          <span>
+            Workspace <span className="lp-slash">/</span>{" "}
+            <strong>Tickets</strong>
+          </span>
+          <span className="lp-sample-label">Sample workspace</span>
+        </div>
+        <div className="lp-preview-toolbar">
+          <span>
+            <Layers size={14} /> All tickets <small>6</small>
+          </span>
+          <div className="lp-preview-view" aria-label="Sample ticket view">
+            <button
+              onClick={() => setView("list")}
+              aria-pressed={view === "list"}
+              aria-label="Preview list view"
+            >
+              <List size={15} />
+            </button>
+            <button
+              onClick={() => setView("board")}
+              aria-pressed={view === "board"}
+              aria-label="Preview board view"
+            >
+              <LayoutGrid size={14} />
+            </button>
           </div>
         </div>
+        {view === "list" ? (
+          <div className="lp-sample-list">
+            <div className="lp-sample-group">
+              <CircleDot size={13} />
+              <span>Current cycle</span>
+              <small>6 tickets</small>
+            </div>
+            {tickets.map((ticket) => (
+              <button
+                key={ticket.id}
+                className={`lp-sample-row ${selected.id === ticket.id ? "is-selected" : ""}`}
+                onClick={() => setSelected(ticket)}
+                aria-pressed={selected.id === ticket.id}
+              >
+                <Status status={ticket.status} />
+                <span className="lp-ticket-id">{ticket.id}</span>
+                <span className="lp-ticket-title">{ticket.title}</span>
+                <span className="lp-ticket-label">{ticket.label}</span>
+                <span className="lp-mini-avatar">S</span>
+              </button>
+            ))}
+            <div className="lp-preview-bottom">
+              <Check size={12} />
+              <span>All changes saved locally</span>
+            </div>
+          </div>
+        ) : (
+          <div className="lp-sample-board">
+            {[
+              { status: "todo", name: "To do" },
+              { status: "progress", name: "In progress" },
+              { status: "done", name: "Done" },
+            ].map((column) => (
+              <div key={column.status}>
+                <div className="lp-sample-column-heading">
+                  <Status status={column.status} />
+                  {column.name}
+                  <small>2</small>
+                </div>
+                {tickets
+                  .filter((t) => t.status === column.status)
+                  .map((ticket) => (
+                    <button
+                      key={ticket.id}
+                      className={`lp-sample-card ${selected.id === ticket.id ? "is-selected" : ""}`}
+                      onClick={() => setSelected(ticket)}
+                      aria-pressed={selected.id === ticket.id}
+                    >
+                      <span className="lp-ticket-id">{ticket.id}</span>
+                      <strong>{ticket.title}</strong>
+                      <span className="lp-ticket-label">{ticket.label}</span>
+                    </button>
+                  ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+      <aside className="lp-preview-detail" aria-label="Sample ticket details">
+        <div className="lp-detail-top">
+          <span>{selected.id}</span>
+          <MoreHorizontal size={17} />
+        </div>
+        <h3>{selected.title}</h3>
+        <p>{selected.description}</p>
+        <div className="lp-detail-properties">
+          <span>Status</span>
+          <strong>
+            <Status status={selected.status} />
+            {selected.status === "progress"
+              ? "In progress"
+              : selected.status === "done"
+                ? "Done"
+                : "To do"}
+          </strong>
+          <span>Priority</span>
+          <strong>
+            <span className="lp-priority-bars">▂▅▇</span>
+            {selected.priority}
+          </strong>
+          <span>Project</span>
+          <strong>
+            <FolderKanban size={13} />
+            Workspace launch
+          </strong>
+          <span>Cycle</span>
+          <strong>
+            <CircleDashed size={13} />
+            Launch cycle
+          </strong>
+        </div>
+        <div className="lp-detail-note">
+          <FileText size={14} />
+          <span>
+            Project brief <ArrowUpRight size={12} />
+          </span>
+        </div>
+        <div className="lp-detail-activity">
+          <span className="lp-mini-avatar">S</span>
+          <p>
+            Sam moved this ticket to{" "}
+            <strong>
+              {selected.status === "progress"
+                ? "In progress"
+                : selected.status === "done"
+                  ? "Done"
+                  : "To do"}
+            </strong>
+            <small>Just now · sample activity</small>
+          </p>
+        </div>
+      </aside>
     </div>
-    <div className="landing-preview-note"><span className="landing-note-check"><Check size={16} /></span><div>One less thing in your head.<span>One step closer to shipped.</span></div></div>
-    <p className="landing-preview-caption">A sample workspace. Make yours your own.</p>
-  </div>;
-}
-
-function TicketIllustration() {
-  return <div className="landing-ticket-illustration" aria-hidden="true">
-    <div className="landing-detail-top"><span><span className="landing-project-dot" /> Product launch <span>/</span> ZET-08</span><MoreHorizontal size={17} /></div>
-    <h4>Make the first five minutes feel great</h4>
-    <div className="landing-detail-properties"><span><CircleDot size={13} /> In progress</span><span><Priority level={3} /> High priority</span><span className="landing-preview-label violet">Experience</span></div>
-    <p>A friendly first impression, a clear next step, and a workspace that feels like yours.</p>
-    <div className="landing-detail-checklist"><span><Check size={13} /> Map the first-run experience</span><span><Check size={13} /> Write the welcome copy</span><span><span className="landing-empty-check" /> Add the finishing touches</span></div>
-    <div className="landing-detail-footer"><span className="landing-preview-avatar avatar-al">AL</span><span>A little progress, every day.</span><MessageSquare size={14} /><span>2</span></div>
-  </div>;
-}
-
-function ProjectIllustration() {
-  return <div className="landing-project-illustration" aria-hidden="true">
-    <div className="landing-project-illustration-heading"><span className="landing-preview-project-icon"><Flag size={20} /></span><MoreHorizontal size={18} /></div>
-    <h4>Product launch</h4><p>From first idea to the first hello.</p>
-    <div className="landing-project-illustration-progress"><span>Project progress</span><strong>2 of 6 done</strong></div>
-    <div className="landing-project-progress-track"><span /></div>
-    <div className="landing-project-mini-list"><span><CircleCheck size={15} /> Find our visual direction <Check size={13} /></span><span><CircleDot size={15} /> First-run experience <span className="landing-preview-avatar avatar-al">AL</span></span><span><CircleDashed size={15} /> Share it with the world <span className="landing-preview-avatar avatar-js">JS</span></span></div>
-  </div>;
+  );
 }
 
 export default function Landing({ onOpen }: { onOpen: () => void }) {
-  return <div className="landing">
-    <a className="landing-skip-link" href="#main-content">Skip to content</a>
-    <header className="landing-header landing-container">
-      <a className="landing-home-link" href="#" aria-label="Zettel home"><Brand /></a>
-      <nav className="landing-navigation" aria-label="Main navigation"><a href="#product">Product</a><a href="#local-first">Why local?</a><a href="#pricing">Pricing</a></nav>
-      <div className="landing-header-actions"><a className="landing-github-link" href={repository} aria-label="Zettel source on GitHub" target="_blank" rel="noreferrer"><Code2 size={19} /></a><button className="landing-button landing-button-small landing-button-header" onClick={onOpen}>Open workspace <ArrowUpRight size={14} /></button></div>
-    </header>
-
-    <main id="main-content">
-      <section className="landing-hero landing-container" aria-labelledby="hero-heading">
-        <div className="landing-hero-copy">
-          <div className="landing-release-label"><span className="landing-local-dot" /> A local-first home for your work</div>
-          <h1 id="hero-heading">Less managing.<br />More making.</h1>
-          <p className="landing-hero-description">A little structure for your next big thing. Bring your tickets, projects, and ideas together in a workspace that stays yours.</p>
-          <div className="landing-hero-actions"><button className="landing-button landing-button-primary" onClick={onOpen}>Start your workspace <ArrowRight size={17} /></button><a className="landing-button landing-button-secondary" href="#downloads"><Download size={17} /> Get desktop</a></div>
-          <p className="landing-hero-fineprint">Free to start. No account. Just you and your next idea.</p>
-          <div className="landing-hero-ownership"><span><HardDrive size={15} /> Stored on your device</span><span><Code2 size={15} /> Open source</span></div>
+  return (
+    <div className="landing">
+      <a className="lp-skip" href="#main-content">
+        Skip to content
+      </a>
+      <header className="lp-header">
+        <div className="lp-container lp-header-inner">
+          <a href="#" aria-label="Zettel home">
+            <Brand />
+          </a>
+          <nav aria-label="Main navigation">
+            <a href="#product">Product</a>
+            <a href="#local-first">Local first</a>
+            <a href="#pricing">Pricing</a>
+            <a href={repository} target="_blank" rel="noreferrer">
+              GitHub <ArrowUpRight size={12} />
+            </a>
+          </nav>
+          <button
+            className="lp-button lp-button-small lp-button-light"
+            onClick={onOpen}
+          >
+            Open workspace <ArrowRight size={13} />
+          </button>
         </div>
-        <WorkbenchPreview />
-      </section>
+      </header>
+      <main id="main-content">
+        <section
+          className="lp-hero lp-container"
+          aria-labelledby="hero-heading"
+        >
+          <a
+            className="lp-release"
+            href={releaseUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="lp-release-dot" /> Zettel is in early preview{" "}
+            <ArrowRight size={13} />
+          </a>
+          <h1 id="hero-heading">
+            A sharper way
+            <br />
+            to move work forward.
+          </h1>
+          <div className="lp-hero-bottom">
+            <p>
+              Tickets, projects, and the context behind them.
+              <br className="lp-desktop-break" /> One focused workspace. On your
+              device. On your terms.
+            </p>
+            <div className="lp-hero-actions">
+              <button className="lp-button lp-button-light" onClick={onOpen}>
+                Start your workspace <ArrowRight size={15} />
+              </button>
+              <a className="lp-text-link" href="#downloads">
+                Get desktop <Download size={14} />
+              </a>
+            </div>
+          </div>
+          <ProductPreview />
+          <div className="lp-proof-line">
+            <span>
+              <HardDrive size={14} /> Local-first storage
+            </span>
+            <span>
+              <Command size={14} /> Keyboard shortcuts
+            </span>
+            <span>
+              <Terminal size={14} /> AI & MCP in local setups
+            </span>
+            <span>
+              <Code2 size={14} /> Open source
+            </span>
+          </div>
+        </section>
 
-      <div className="landing-audience landing-container"><p>Small teams.<br /><strong>Big things ahead.</strong></p><div><span><Laptop size={21} /> Independent makers</span><span><UsersRound size={21} /> Growing teams</span><span><Sparkles size={21} /> Your next side project</span></div></div>
+        <section
+          className="lp-container lp-section"
+          id="product"
+          aria-labelledby="product-heading"
+        >
+          <div className="lp-section-intro">
+            <div>
+              <span className="lp-eyebrow">
+                <Layers size={15} /> Built around the work
+              </span>
+              <h2 id="product-heading">
+                Less overhead.
+                <br />A clearer next step.
+              </h2>
+            </div>
+            <p>
+              Capture the idea. Give it a project. Keep the decisions close.
+              Zettel brings the essential pieces together so you can follow the
+              work through.
+            </p>
+          </div>
+          <div className="lp-workflow-grid">
+            <article>
+              <span className="lp-feature-number">01</span>
+              <h3>Capture with clarity.</h3>
+              <p>
+                Set priorities, link dependencies, and keep acceptance criteria
+                with the ticket. Switch between a focused list and a board.
+              </p>
+              <div className="lp-feature-example">
+                <CircleDot size={15} />
+                <span className="lp-ticket-id">ZET-24</span>
+                <strong>Design the first-run experience</strong>
+              </div>
+            </article>
+            <article>
+              <span className="lp-feature-number">02</span>
+              <h3>Plan with perspective.</h3>
+              <p>
+                Organize tickets into projects and timeboxed cycles. See what is
+                moving, what is blocked, and what is ready to ship.
+              </p>
+              <div className="lp-project-example">
+                <span>
+                  <FolderKanban size={15} /> Workspace launch
+                </span>
+                <div className="lp-progress-track">
+                  <i />
+                </div>
+                <small>2 of 6 completed</small>
+              </div>
+            </article>
+            <article>
+              <span className="lp-feature-number">03</span>
+              <h3>Keep the context.</h3>
+              <p>
+                Connect notes to projects and tickets. The thinking behind a
+                decision belongs next to the work it changes.
+              </p>
+              <div className="lp-feature-example">
+                <FileText size={15} />
+                <strong>Launch brief</strong>
+                <span className="lp-inline-muted">3 linked tickets</span>
+              </div>
+            </article>
+          </div>
+        </section>
 
-      <section className="landing-product landing-container landing-section" id="product" aria-labelledby="product-heading">
-        <div className="landing-section-heading"><h2 id="product-heading">A clear head starts with<br />a clear workspace.</h2><p>Enough structure to keep things moving.<br />Enough room to work your own way.</p></div>
-        <div className="landing-product-grid">
-          <article className="landing-feature landing-feature-tickets"><div className="landing-feature-art"><TicketIllustration /></div><div className="landing-feature-copy"><span className="landing-feature-symbol"><ListTodo size={19} /></span><h3>Tickets, without the ceremony.</h3><p>Get the idea out of your head. Add the details, set a priority, and take it one step at a time.</p><div className="landing-feature-capabilities"><span>Statuses</span><span>Priorities</span><span>Labels</span><span>Dependencies</span></div></div></article>
-          <article className="landing-feature landing-feature-projects"><div className="landing-feature-art"><ProjectIllustration /></div><div className="landing-feature-copy"><span className="landing-feature-symbol"><FolderKanban size={19} /></span><h3>See the bigger picture.</h3><p>Give every ticket a purpose. Group work into projects and follow the path from an idea to done.</p><div className="landing-feature-capabilities"><span>Projects</span><span>Cycles</span><span>Notes</span></div></div></article>
-        </div>
-        <div className="landing-workflow-line"><span><Search size={17} /> Find your focus</span><span><Layers size={17} /> Plan in cycles</span><span><FileText size={17} /> Keep context close</span><span><CheckCheck size={17} /> Enjoy the small wins</span></div>
-      </section>
+        <section
+          className="lp-container lp-section lp-local"
+          id="local-first"
+          aria-labelledby="local-heading"
+        >
+          <div className="lp-local-copy">
+            <span className="lp-eyebrow">
+              <HardDrive size={15} /> Local by design
+            </span>
+            <h2 id="local-heading">
+              Your device.
+              <br />
+              Your workspace.
+            </h2>
+            <p>
+              Start without an account. Your work is saved locally, with
+              portable backups whenever you need them.
+            </p>
+            <a
+              className="lp-text-link"
+              href={sourceGuide}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Explore the local setup <ArrowUpRight size={14} />
+            </a>
+            <p className="lp-boundary">
+              Browser data stays in that browser. Desktop uses its own local
+              store. Export backups regularly; devices do not sync
+              automatically.
+            </p>
+          </div>
+          <div
+            className="lp-local-diagram"
+            aria-label="Browser and desktop each keep a local workspace, with JSON export and import to move your data"
+          >
+            <div className="lp-diagram-header">
+              <span>
+                <span className="lp-release-dot" /> Local workspace
+              </span>
+              <span>Under your control</span>
+            </div>
+            <div className="lp-storage-node">
+              <div className="lp-storage-icon">
+                <img
+                  src="/brand/zettel-mark.svg"
+                  width="26"
+                  height="26"
+                  alt=""
+                />
+              </div>
+              <strong>Your work</strong>
+              <span>Tickets · projects · cycles · notes</span>
+            </div>
+            <div className="lp-diagram-connectors" aria-hidden="true">
+              <span />
+              <span />
+            </div>
+            <div className="lp-storage-options">
+              <div>
+                <HardDrive size={19} />
+                <strong>On your device</strong>
+                <span>Browser or desktop</span>
+              </div>
+              <div>
+                <Download size={19} />
+                <strong>Portable backups</strong>
+                <span>Export and restore JSON</span>
+              </div>
+            </div>
+            <div className="lp-diagram-footer">
+              <Code2 size={14} /> Apache-2.0 source. Yours to build on.
+            </div>
+          </div>
+        </section>
 
-      <section className="landing-local-section" id="local-first" aria-labelledby="local-heading"><div className="landing-container landing-local-grid">
-        <div className="landing-local-art" aria-hidden="true"><div className="landing-orbit landing-orbit-one" /><div className="landing-orbit landing-orbit-two" /><div className="landing-owned-ticket"><img src="/brand/zettel-mark.svg" width="75" height="75" alt="" /><span>Your ideas.<br />Your work.<br />Your space.</span><div><HardDrive size={14} /> Right here on your device.</div></div><span className="landing-local-art-badge"><LockKeyhole size={15} /> Yours to keep</span></div>
-        <div className="landing-local-copy"><span className="landing-inline-label"><HardDrive size={16} /> Local first. You first.</span><h2 id="local-heading">Your work shouldn't<br />need a landlord.</h2><p>Start a workspace in your browser. Your tickets and projects are saved on this device, ready for you to pick up where you left off.</p><ul className="landing-check-list"><li><Check size={17} /><span><strong>Start without signing up.</strong> No account between you and your work.</span></li><li><Check size={17} /><span><strong>Take your work with you.</strong> Export a backup and move it between workspaces.</span></li><li><Check size={17} /><span><strong>Keep the choice.</strong> Open source, with a local service and desktop build for your own setup.</span></li></ul><p className="landing-storage-note">Browser work stays in this browser. Export backups regularly; clearing site data removes it. Devices do not sync automatically.</p></div>
-      </div></section>
+        <section
+          className="lp-container lp-section lp-ai"
+          aria-labelledby="ai-heading"
+        >
+          <div className="lp-section-intro">
+            <div>
+              <span className="lp-eyebrow">
+                <Terminal size={15} /> For you and your tools
+              </span>
+              <h2 id="ai-heading">
+                Move faster.
+                <br />
+                Keep the final say.
+              </h2>
+            </div>
+            <p>
+              Turn a rough idea into proposed tickets with your own AI provider.
+              Review before creating. Connect an MCP client to work directly
+              with your local workspace.
+            </p>
+          </div>
+          <div className="lp-ai-panel">
+            <div className="lp-ai-prompt">
+              <div className="lp-panel-caption">
+                <Command size={14} /> AI planner{" "}
+                <span>Illustrative review flow</span>
+              </div>
+              <p>
+                Plan a thoughtful first release.
+                <br />
+                <span>Keep it focused on the core workflow.</span>
+              </p>
+              <div className="lp-prompt-bottom">
+                <span>Your provider · local setup</span>
+                <ArrowRight size={16} />
+              </div>
+            </div>
+            <div className="lp-ai-review">
+              <div className="lp-panel-caption">
+                <Layers size={14} /> Proposed tickets{" "}
+                <span>Review before creating</span>
+              </div>
+              {[
+                "Define the first complete workflow",
+                "Verify backup and restore",
+                "Prepare release notes",
+              ].map((title, i) => (
+                <div className="lp-proposal" key={title}>
+                  <Check size={14} />
+                  <span>{title}</span>
+                  <small>{i === 0 ? "High" : "Medium"}</small>
+                </div>
+              ))}
+              <div className="lp-prompt-bottom">
+                <span>Nothing is created at the proposal step.</span>
+                <span className="lp-review-label">3 suggestions</span>
+              </div>
+            </div>
+          </div>
+          <div className="lp-ai-footnote">
+            <p>
+              Local preview · Provider setup required · No included AI credits
+            </p>
+            <a
+              className="lp-text-link"
+              href={sourceGuide}
+              target="_blank"
+              rel="noreferrer"
+            >
+              AI & MCP setup <ArrowUpRight size={13} />
+            </a>
+          </div>
+        </section>
 
-      <section className="landing-ai landing-container landing-section" aria-labelledby="ai-heading"><div className="landing-ai-copy"><span className="landing-inline-label"><Sparkles size={16} /> Optional AI, on your terms</span><h2 id="ai-heading">A little help.<br />With you in control.</h2><p>Turn an idea into a draft plan with your own AI provider in a local setup. Review the suggestions before creating tickets. Connect an MCP client to read and update your local work.</p><div className="landing-ai-availability"><span className="landing-planned-badge">Local preview</span><span>Provider setup required. No included AI credits.</span></div><a className="landing-text-link" href={`${repository}/blob/main/docs/local-runtime.md`} target="_blank" rel="noreferrer">Read the local setup guide <ArrowUpRight size={15} /></a></div><div className="landing-ai-preview" aria-label="Illustration of the optional local AI ticket review flow, not a live model response"><div className="landing-ai-preview-header"><Sparkles size={17} /><span>A starting point, not the final say.</span><span>Illustration</span></div><div className="landing-ai-prompt"><span className="landing-preview-avatar avatar-al">You</span><p>Help me turn this launch idea into a few clear next steps.</p></div><div className="landing-ai-reply"><span className="landing-ai-z"><img src="/brand/zettel-mark.svg" alt="" width="20" height="20" /></span><div><p>A plan you can make your own.</p><span>Review each suggestion before adding it.</span></div></div><div className="landing-ai-proposals"><div><span className="landing-proposal-check"><Check size={11} /></span><span>Define the first version</span><span>Product</span></div><div><span className="landing-proposal-check"><Check size={11} /></span><span>Build a welcoming first run</span><span>Design</span></div><div><span className="landing-proposal-check"><Check size={11} /></span><span>Plan the launch checklist</span><span>Launch</span></div></div><div className="landing-ai-preview-footer"><span><LockKeyhole size={12} /> Nothing happens without your review</span><span>Review 3 suggestions <ArrowRight size={12} /></span></div></div></section>
+        <section
+          className="lp-container lp-section lp-pricing"
+          id="pricing"
+          aria-labelledby="pricing-heading"
+        >
+          <div className="lp-section-intro">
+            <div>
+              <span className="lp-eyebrow">Simple by choice</span>
+              <h2 id="pricing-heading">
+                Start free.
+                <br />
+                Build from here.
+              </h2>
+            </div>
+            <p>
+              The local workspace is available today. Official commercial
+              desktop releases and hosted teams are the next chapters.
+            </p>
+          </div>
+          <div className="lp-price-table">
+            <article>
+              <div>
+                <h3>Local workspace</h3>
+                <p>For your projects, at your pace.</p>
+              </div>
+              <div className="lp-plan-details">
+                <span>Tickets, projects, cycles, and notes</span>
+                <span>Local storage, import, and export</span>
+                <span>Open source under Apache-2.0</span>
+              </div>
+              <div className="lp-price">
+                <strong>Free</strong>
+                <span>Available now</span>
+                <button onClick={onOpen} className="lp-text-link">
+                  Start your workspace <ArrowRight size={14} />
+                </button>
+              </div>
+            </article>
+            <article>
+              <div>
+                <h3>Desktop</h3>
+                <p>A proposed official distribution.</p>
+              </div>
+              <div className="lp-plan-details">
+                <span>Planned signed desktop releases</span>
+                <span>Proposed updates and support</span>
+                <span>Free source builds remain available</span>
+              </div>
+              <div className="lp-price">
+                <strong>
+                  $49 <small>one-time</small>
+                </strong>
+                <span>Proposed · No purchase available</span>
+                <a href="#downloads" className="lp-text-link">
+                  Preview availability <ArrowRight size={14} />
+                </a>
+              </div>
+            </article>
+            <article>
+              <div>
+                <h3>Teams</h3>
+                <p>A shared place to move work forward.</p>
+              </div>
+              <div className="lp-plan-details">
+                <span>Planned shared workspaces and sync</span>
+                <span>Roles and team administration</span>
+                <span>Managed hosting and backups</span>
+              </div>
+              <div className="lp-price">
+                <strong className="lp-price-roadmap">On the roadmap</strong>
+                <span>Pricing to be announced</span>
+                <a
+                  href={`${repository}/issues`}
+                  className="lp-text-link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Follow development <ArrowUpRight size={14} />
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
 
-      <section className="landing-pricing landing-section" id="pricing" aria-labelledby="pricing-heading"><div className="landing-container"><div className="landing-pricing-heading"><h2 id="pricing-heading">Start small. Keep your options open.</h2><p>A free local workspace today. A considered path for what comes next.</p></div><div className="landing-pricing-grid">
-        <article className="landing-price-card"><span className="landing-price-icon"><UserRound size={20} /></span><h3>For your next idea</h3><p className="landing-price-description">A place to focus and get moving.</p><div className="landing-price"><strong>Free</strong><span>Local workspace</span></div><ul className="landing-check-list"><li><Check size={16} /> Tickets, projects, cycles, and notes</li><li><Check size={16} /> Work saved in your browser</li><li><Check size={16} /> Import and export your data</li><li><Check size={16} /> Apache-2.0 source code</li></ul><button className="landing-button landing-button-secondary" onClick={onOpen}>Start your workspace <ArrowRight size={16} /></button><p className="landing-price-note">No account or payment details.</p></article>
-        <article className="landing-price-card landing-price-desktop"><span className="landing-price-ribbon">Proposed desktop offer</span><span className="landing-price-icon"><Laptop size={20} /></span><h3>A home on your desktop</h3><p className="landing-price-description">Support the product you use.</p><div className="landing-price"><strong>$49</strong><span>One-time · proposed</span></div><ul className="landing-check-list"><li><Check size={16} /> Planned signed desktop releases</li><li><Check size={16} /> Proposed updates and support</li><li><Check size={16} /> Local storage and portable backups</li><li><Check size={16} /> Free source builds remain available</li></ul><a className="landing-button landing-button-primary" href="#downloads">See desktop availability <ArrowDown size={16} /></a><p className="landing-price-note">Pricing concept. No purchase available.</p></article>
-        <article className="landing-price-card"><span className="landing-price-icon"><UsersRound size={20} /></span><h3>Room to grow together</h3><p className="landing-price-description">For a shared way of working.</p><div className="landing-price"><strong className="landing-price-planned">On the roadmap</strong><span>Hosted teams</span></div><ul className="landing-check-list landing-check-list-planned"><li><CircleDashed size={16} /> Shared workspaces and collaboration</li><li><CircleDashed size={16} /> Managed sync and backups</li><li><CircleDashed size={16} /> Roles and team administration</li><li><CircleDashed size={16} /> Optional hosted AI services</li></ul><a className="landing-button landing-button-secondary" href={`${repository}/issues`} target="_blank" rel="noreferrer">Explore the roadmap <ArrowUpRight size={16} /></a><p className="landing-price-note">Planned. Pricing not set.</p></article>
-      </div><p className="landing-pricing-footnote">Your source-code rights stay yours. Paid offerings would cover official distribution and services, not restrict the Apache-2.0 license.</p></div></section>
+        <section
+          className="lp-container lp-section lp-download"
+          id="downloads"
+          aria-labelledby="downloads-heading"
+        >
+          <div>
+            <span className="lp-eyebrow">
+              <Download size={15} /> Desktop preview
+            </span>
+            <h2 id="downloads-heading">A place on your desktop.</h2>
+            <p>
+              Try the macOS Apple Silicon alpha, or build Zettel from source for
+              your own setup.
+            </p>
+          </div>
+          <div className="lp-download-actions">
+            <a
+              className="lp-button lp-button-light"
+              href={`${repository}/releases/download/${releaseTag}/Zettel-0.1.0-alpha.2-arm64-mac.zip`}
+            >
+              <Download size={16} /> Download for Mac <span>Apple Silicon</span>
+            </a>
+            <a
+              className="lp-text-link"
+              href={releaseUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Release notes & checksums <ArrowUpRight size={13} />
+            </a>
+            <p>
+              v0.1.0-alpha.2 · Developer preview
+              <br />
+              Not Developer ID signed or notarized.
+            </p>
+            <a
+              className="lp-text-link"
+              href={sourceGuide}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Build from source <ArrowUpRight size={13} />
+            </a>
+          </div>
+        </section>
 
-      <section className="landing-downloads landing-container landing-section" id="downloads" aria-labelledby="downloads-heading"><div><span className="landing-inline-label"><Download size={16} /> Find your space</span><h2 id="downloads-heading">Open a tab.<br />Or make yourself at home.</h2><p>Get started in your browser, or build Zettel locally from source. The same idea: a calmer place for your work.</p></div><div className="landing-download-options"><div className="landing-download-option"><span className="landing-download-symbol"><Laptop size={23} /></span><div><h3>Web workspace</h3><p>Open in your browser. Saved on this device.</p></div><button onClick={onOpen} className="landing-button landing-button-small landing-button-primary">Open <ArrowUpRight size={14} /></button></div><div className="landing-download-option"><span className="landing-download-symbol"><Terminal size={23} /></span><div><h3>Desktop & localhost <span>Source build</span></h3><p>Build instructions and source on GitHub.</p></div><a href={repository} target="_blank" rel="noreferrer" className="landing-button landing-button-small landing-button-secondary" aria-label="View Zettel source and build instructions on GitHub">Source <ArrowUpRight size={14} /></a></div><p className="landing-download-note">Ready-to-install, signed desktop releases are not yet available. Source builds require developer tools. Check the repository for supported platforms and setup steps.</p></div></section>
-
-      <section className="landing-faq landing-container" aria-labelledby="faq-heading"><h2 id="faq-heading">A few useful details.</h2><div className="landing-faq-list"><details><summary>Where does my work live?<Plus size={18} /></summary><p>The web workspace saves data in this browser on this device. It does not upload your tickets to a shared Zettel account or sync them to other devices. Use export to keep a backup, especially before clearing your browser data. Desktop and localhost builds use their own local storage.</p></details><details><summary>Can I use Zettel with my team today?<Plus size={18} /></summary><p>The current local workspace is designed for individual use. You can plan team work and record assignees, but shared accounts, real-time collaboration, permissions, and automatic sync are future work. Follow the public roadmap for progress.</p></details><details><summary>Do I need AI to use Zettel?<Plus size={18} /></summary><p>No. Tickets, projects, cycles, and notes work independently of an AI provider. Optional AI planning and MCP tools are available in local setups. AI planning requires your own configured provider; the browser-only workspace does not send planner requests. The illustration above shows the review flow, not a live model response. MCP tools make real changes when your configured client invokes a write tool.</p></details><details><summary>How does the desktop license fit with open source?<Plus size={18} /></summary><p>Zettel's source remains Apache-2.0. The proposed desktop price would support an official signed distribution, updates, and support. It is a pricing hypothesis, not an active purchase or a restriction on your open-source rights. Final terms and availability will be published before sales begin.</p></details></div></section>
-
-      <section className="landing-final-cta landing-container"><div><h2>Make space for your next good thing.</h2><p>Start with one ticket. See where it takes you.</p></div><button className="landing-button landing-button-primary" onClick={onOpen}>Start your workspace <ArrowRight size={17} /></button></section>
-    </main>
-
-    <footer className="landing-footer landing-container"><div><a className="landing-home-link" href="#" aria-label="Zettel home"><Brand /></a><p>A little structure. A lot of possibility.</p></div><nav aria-label="Footer navigation"><a href="#product">Product</a><a href="#downloads">Desktop</a><a href={`${repository}/issues`} target="_blank" rel="noreferrer">Roadmap</a><a href={repository} target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={12} /></a></nav><span>Made for the work that matters to you.</span></footer>
-  </div>;
+        <section className="lp-container lp-faq" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">A few useful details.</h2>
+          <div>
+            <details>
+              <summary>
+                Where does my work live?
+                <Plus size={16} />
+              </summary>
+              <p>
+                The web workspace stores data in this browser on this device.
+                Desktop and localhost builds use their own local storage. Export
+                a backup before clearing site data. There is no automatic
+                cross-device sync.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Can I use this with a team today?
+                <Plus size={16} />
+              </summary>
+              <p>
+                The current workspace is for individual use. You can record
+                assignees and organize team work, but shared accounts, real-time
+                collaboration, permissions, and managed sync are still on the
+                roadmap.
+              </p>
+            </details>
+            <details>
+              <summary>
+                Is AI required?
+                <Plus size={16} />
+              </summary>
+              <p>
+                No. The core workspace works without AI. Optional planning
+                requires your own provider in a local setup. The browser-only
+                workspace does not send planner requests. MCP clients can read
+                and make real changes to your local data through the configured
+                tools.
+              </p>
+            </details>
+            <details>
+              <summary>
+                How does paid desktop fit with open source?
+                <Plus size={16} />
+              </summary>
+              <p>
+                The source stays Apache-2.0. A future commercial offer would
+                cover official signed distribution, updates, and support. The
+                proposed price is not a live checkout or a restriction on your
+                source-code rights. Final terms will be published before sales
+                begin.
+              </p>
+            </details>
+          </div>
+        </section>
+        <section className="lp-container lp-final">
+          <h2>
+            Your next project
+            <br />
+            starts here.
+          </h2>
+          <div>
+            <button className="lp-button lp-button-light" onClick={onOpen}>
+              Start your workspace <ArrowRight size={15} />
+            </button>
+            <p>No account. No setup. Just start.</p>
+          </div>
+        </section>
+      </main>
+      <footer className="lp-container lp-footer">
+        <a href="#" aria-label="Zettel home">
+          <Brand />
+        </a>
+        <span>Built for the work ahead.</span>
+        <nav aria-label="Footer navigation">
+          <a href={repository} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+          <a href={`${repository}/issues`} target="_blank" rel="noreferrer">
+            Roadmap
+          </a>
+          <a href={sourceGuide} target="_blank" rel="noreferrer">
+            Documentation <ArrowUpRight size={12} />
+          </a>
+        </nav>
+      </footer>
+    </div>
+  );
 }

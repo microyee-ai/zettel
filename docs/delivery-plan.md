@@ -20,7 +20,7 @@ The first deliverable is a usable branded local work app, reachable on the web a
 | ZET-COMMERCE-01 | Freemium/paid distribution model is truthful; purchase, entitlement activation, renewal/refund and expiry behavior exist before charging | coordinator; market research, DESKTOP-01 | Maintainer's pricing/merchant policy, sandbox transaction and signed entitlement tests; never lock export on expiry |
 | ZET-RELEASE-01 | Independent reviewer checks actual app/security/recovery and reconciles every completion claim | verifier/security reviewer; preceding deliverables | Per-criterion verified/contradicted/unverified report, notices/SBOM, release limitations |
 
-Runtime unit/integration evidence currently proves seven backend scenarios and successful runtime bundling. It does not prove desktop installation, real AI credentials, live payments, web UX or Vercel availability. Update evidence as those owners finish; keep incomplete gates open.
+Runtime unit/integration evidence proves seven backend scenarios and successful runtime bundling. The macOS arm64 packaged executable also passed UI creation, restart persistence, renderer isolation, blocked navigation/popups, bundled MCP access and native export/reset/import verification; see [local runtime evidence](local-runtime.md). Its valid ad-hoc signature does not establish Apple publisher trust: Gatekeeper rejects this unnotarized preview. Other owners record web/deployment evidence separately. Real AI credentials, live payments, trusted desktop distribution, other operating systems and enterprise capabilities remain open gates.
 
 ## Follow-on milestones preserving full scope
 

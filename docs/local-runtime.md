@@ -35,11 +35,28 @@ npm run desktop
 
 The build produces `dist-desktop/main.cjs` and `dist-desktop/preload.cjs`, plus standalone `dist-server/index.mjs` and `dist-server/mcp.mjs`. Electron serves packaged assets on a private available loopback port and opens `/app`. Its renderer is sandboxed and isolated; the preload exposes only `load`, `save`, `propose` and `info`. Desktop loads SQLite through its own bundled Node runtime. A user's system Node is unnecessary for the packaged GUI.
 
-`npm run desktop:package` builds the configured platform artifact. See the current package script for its target: do not infer Windows/Linux availability from their configuration entries. A release needs actual artifact links, checksums, supported architectures, launch/persistence evidence and a signing/notarization status. Packaging and downloading an unsigned preview do not provide signed distribution or automatic updates.
+`npm run desktop:package` builds the configured macOS Apple Silicon ZIP. Do not infer Windows/Linux availability from their configuration entries. The verified preview is ad-hoc signed for file integrity, has no Developer ID identity, and is not notarized; Gatekeeper rejects it. Trusted distribution and automatic updates remain separate work. The release manifest records source revision, SHA-256 hashes, architecture and observed test results.
 
 ## Connect an MCP client
 
-Start the local service first. Build the standalone bridge with `npm run desktop:build`, then add this configuration to a client that accepts stdio MCP servers. Replace the paths with your real checkout and Node 24 executable:
+The packaged macOS app includes its MCP bridge and Node runtime. With Zettel installed at `/Applications/Zettel.app` and running, a client that accepts stdio MCP servers can use this configuration. Replace the connection-file path with your actual absolute home directory; JSON configuration does not expand `~`:
+
+```json
+{
+  "mcpServers": {
+    "zettel": {
+      "command": "/Applications/Zettel.app/Contents/MacOS/Zettel",
+      "args": ["/Applications/Zettel.app/Contents/Resources/mcp.mjs"],
+      "env": {
+        "ELECTRON_RUN_AS_NODE": "1",
+        "ZETTEL_CONNECTION_FILE": "/Users/your-user/.zettel/desktop-connection.json"
+      }
+    }
+  }
+}
+```
+
+This packaged route was verified with the actual app binary and resource. It needs no separate Node installation or source checkout. For a source-based localhost service instead, start that service, build the bridge with `npm run desktop:build`, and use your Node 24 executable:
 
 ```json
 {
@@ -55,7 +72,7 @@ Start the local service first. Build the standalone bridge with `npm run desktop
 }
 ```
 
-For a running desktop app use `desktop-connection.json` instead. The bridge rereads the connection file for each operation, so a normal service restart rotates credentials without changing client arguments. The stdio bridge itself still needs Node; bundling an independent MCP executable is a future distribution task. Never put the bearer token in a command line or copied client snippet.
+The bridge rereads the connection file for each operation, so a normal service restart rotates credentials without changing client arguments. The source-based route requires Node; the packaged route above reuses Electron's bundled runtime. Never put the bearer token in a command line or copied client snippet.
 
 Available tools:
 
@@ -104,4 +121,6 @@ For a file-level backup, stop both the desktop and standalone service before cop
 
 `node scripts/build-desktop.mjs` generated all four runtime entries successfully. The bundled `dist-server/mcp.mjs` completed a real SDK handshake and created a persisted ticket while launched from an isolated temporary working directory, with no repository dependency resolution. The installed Electron 44.5.1 binary reported embedded Node 24.21.0 and successfully created, inserted and selected a `node:sqlite` row.
 
-`node --import tsx tests/server-desktop-smoke.ts` then launched the development desktop with a disposable `ZETTEL_DATA_DIR`: a UI-created ticket survived quit/relaunch; runtime preferences reported sandbox/context isolation/web security enabled and Node integration disabled; renderer `require`/`process` were absent; only the four intended preload methods were exposed; external navigation and popup attempts were blocked. The Electron executable itself also launched the bundled stdio bridge, and its created ticket appeared after a GUI reload. The test accepts a packaged executable path as its first argument for a separate packaged-artifact run. Deployment, signed distribution and other platforms still require their own evidence. See [ADR 0001](decisions/0001-local-first-runtime.md) for design constraints.
+`node --import tsx tests/server-desktop-smoke.ts` then launched the development desktop with a disposable `ZETTEL_DATA_DIR`: a UI-created ticket survived quit/relaunch; runtime preferences reported sandbox/context isolation/web security enabled and Node integration disabled; renderer `require`/`process` were absent; only the four intended preload methods were exposed; external navigation and popup attempts were blocked. The Electron executable itself also launched the bundled stdio bridge, and its created ticket appeared after a GUI reload.
+
+The final `Zettel-0.1.0-alpha.1-arm64-mac.zip`, built from runtime/build source at `f34b3c547e743b52323e436b8ab5ccef662c6141`, passed that same smoke test against its packaged executable, including the bundled MCP resource. Native Electron export, workspace reset, JSON import and exact restored ticket equality also passed. The test sets a temporary save path through Electron's real download event; it does not claim manual native save-dialog coverage. ZIP integrity and `codesign --verify --deep --strict` passed. `spctl` rejected the ad-hoc signed, unnotarized app as expected. The ZIP SHA-256 is `0c3361f6f27bcb9e8699cd5b6cce88d9ac83d7d303ce1337dbd07b4852addf4d`. The generated release manifest/checksum files are separate release assets. Trusted publisher distribution, other platforms, real AI provider use, hosted teams and payments still require their own evidence. See [ADR 0001](decisions/0001-local-first-runtime.md) for design constraints.

@@ -1,8 +1,8 @@
 # Zettel
 
-**Less managing. More making.** A local-first workspace for tickets, projects, and the next thing you want to ship.
+**A sharper way to move work forward.** A local-first workspace for tickets, projects, and the next thing you want to ship.
 
-**Status: early runnable preview, `0.1.0-alpha.1`.** The repository now contains a React web application, a SQLite localhost service, an Electron desktop build, and an MCP bridge. Installation, browser behavior, deployment, and platform release gates are tracked separately in the [preview release record](docs/release-preview.md) and [verification record](docs/verification.md). This is not an enterprise-ready release or a full Linear/Coda alternative.
+**Status: early runnable preview, `0.1.0-alpha.2`.** The repository now contains a React web application, a SQLite localhost service, an Electron desktop build, and an MCP bridge. Installation, browser behavior, deployment, and platform release gates are tracked separately in the [preview release record](docs/release-preview.md) and [verification record](docs/verification.md). This is not an enterprise-ready release or a full Linear/Coda alternative.
 
 ## What the preview contains
 
@@ -25,7 +25,7 @@ npm run dev
 
 Open the URL printed by Vite, normally `http://127.0.0.1:5173`, and choose **Start your workspace**. Start fresh or load the clearly labeled example workspace. Create a project, add a ticket, and move it through the workflow. **Settings & backups** contains export and import controls.
 
-This development server uses browser storage unless the same origin exposes the Zettel local API. A different browser, hostname, or port has a different browser workspace. A production web deployment also has its own browser storage context. No published deployment address is claimed here until its live route and persistence checks are recorded.
+This development server uses browser storage unless the same origin exposes the Zettel local API. A different browser, hostname, or port has a different browser workspace. A production web deployment also has its own browser storage context. The published web preview is [zettel-iota.vercel.app](https://zettel-iota.vercel.app/), with the workspace at [/app](https://zettel-iota.vercel.app/app). Dated verification results are in the release record.
 
 ## Run with local SQLite storage
 

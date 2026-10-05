@@ -35,7 +35,6 @@ import {
   Settings,
   ShieldCheck,
   Sparkles,
-  Target,
   Trash2,
   Upload,
   X,
@@ -233,6 +232,7 @@ export default function App() {
   }, [toast]);
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileMenu(false);
       const element = e.target as HTMLElement;
       if (
         ["INPUT", "TEXTAREA", "SELECT"].includes(element.tagName) ||
@@ -349,6 +349,18 @@ export default function App() {
     i.blockedBy.some((id) =>
       data.issues.some((dep) => dep.id === id && isOpen(dep)),
     );
+  const overdueIssues = openIssues.filter(
+    (i) => i.dueDate && i.dueDate < today(),
+  );
+  const blockedIssues = openIssues.filter(blocked);
+  const currentCycle = data.cycles.find(
+    (cycle) =>
+      cycle.startDate <= today() &&
+      (!cycle.endDate || cycle.endDate >= today()),
+  );
+  const currentCycleIssues = currentCycle
+    ? data.issues.filter((issue) => issue.cycleId === currentCycle.id)
+    : [];
   const percent = (issues: Issue[]) =>
     issues.length
       ? Math.round(
@@ -382,7 +394,7 @@ export default function App() {
       id: uid(),
       name: "",
       description: "",
-      color: "#635bdb",
+      color: "#8b94ff",
       status: "planned",
       targetDate: "",
     });
@@ -463,7 +475,17 @@ export default function App() {
         <a className="skip-link" href="#workspace-content">
           Skip to workspace
         </a>
-        <aside className={`sidebar ${mobileMenu ? "sidebar-open" : ""}`}>
+        {mobileMenu && (
+          <button
+            className="navigation-backdrop"
+            aria-label="Close navigation"
+            onClick={() => setMobileMenu(false)}
+          />
+        )}
+        <aside
+          id="workspace-navigation"
+          className={`sidebar ${mobileMenu ? "sidebar-open" : ""}`}
+        >
           <a className="app-brand" href="#" aria-label="Zettel home">
             <img src="/brand/icon.svg" alt="" />
             <span>zettel</span>
@@ -476,7 +498,7 @@ export default function App() {
             <span className="workspace-avatar">{data.workspace.name[0]}</span>
             <span>
               {data.workspace.name}
-              <small>Your local workspace</small>
+              <small>Local workspace</small>
             </span>
             <ChevronDown size={14} />
           </button>
@@ -497,6 +519,7 @@ export default function App() {
                   key={id as string}
                   className={`nav-item ${page === id ? "active" : ""}`}
                   onClick={() => navigate(id as string)}
+                  aria-current={page === id ? "page" : undefined}
                 >
                   <Glyph size={18} />
                   <span>{label as string}</span>
@@ -529,14 +552,14 @@ export default function App() {
               </button>
             ))}
             {!data.projects.length && (
-              <p className="muted sidebar-hint">Give your next idea a home.</p>
+              <p className="muted sidebar-hint">No projects yet</p>
             )}
           </div>
           <div className="sidebar-bottom">
             <button className="ai-nav" onClick={() => setAi(true)}>
               <Sparkles size={18} />
               <span>
-                Plan with AI<small>Your ideas, made actionable</small>
+                Plan with AI<small>Review a draft plan</small>
               </span>
               <Plus size={14} />
             </button>
@@ -562,6 +585,8 @@ export default function App() {
                 className="icon-button mobile-menu"
                 onClick={() => setMobileMenu(!mobileMenu)}
                 aria-label="Toggle navigation"
+                aria-expanded={mobileMenu}
+                aria-controls="workspace-navigation"
               >
                 <Menu size={20} />
               </button>
@@ -616,8 +641,7 @@ export default function App() {
                   <img src="/brand/icon.svg" alt="" />
                 </div>
                 <div>
-                  <span className="subtle-label">A fresh page</span>
-                  <h1>Make room for your next idea.</h1>
+                  <h2>Set up your workspace</h2>
                   <p>
                     Start with a clean workspace, or explore a small example
                     project. Everything stays{" "}
@@ -665,15 +689,8 @@ export default function App() {
               <>
                 <div className="page-heading">
                   <div>
-                    <p className="subtle-label">
-                      {new Date().toLocaleDateString(undefined, {
-                        weekday: "long",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </p>
-                    <h1>Your work, in motion.</h1>
-                    <p>A little structure for the things you want to make.</p>
+                    <h1>Workspace overview</h1>
+                    <p>Track open work, dependencies, and project progress.</p>
                   </div>
                   <button className="button" onClick={() => setAi(true)}>
                     <Sparkles size={16} /> Plan with AI
@@ -681,18 +698,12 @@ export default function App() {
                 </div>
                 <div className="stats-strip">
                   <div>
-                    <span className="stat-symbol lilac">
-                      <Inbox size={19} />
-                    </span>
                     <div>
                       <strong>{openIssues.length}</strong>
                       <span>Open tickets</span>
                     </div>
                   </div>
                   <div>
-                    <span className="stat-symbol blue">
-                      <CircleDot size={19} />
-                    </span>
                     <div>
                       <strong>
                         {
@@ -704,18 +715,12 @@ export default function App() {
                     </div>
                   </div>
                   <div>
-                    <span className="stat-symbol sage">
-                      <CheckCircle2 size={19} />
-                    </span>
                     <div>
                       <strong>{done}</strong>
                       <span>Completed</span>
                     </div>
                   </div>
                   <div>
-                    <span className="stat-symbol peach">
-                      <Target size={19} />
-                    </span>
                     <div>
                       <strong>
                         {
@@ -730,7 +735,12 @@ export default function App() {
                 <div className="overview-grid">
                   <section className="surface focus-section">
                     <div className="section-heading">
-                      <h2>A good place to focus</h2>
+                      <h2>
+                        Active work{" "}
+                        <span className="section-count">
+                          {openIssues.length}
+                        </span>
+                      </h2>
                       <button
                         className="text-button"
                         onClick={() => navigate("tickets")}
@@ -751,33 +761,83 @@ export default function App() {
                     ) : (
                       <Empty
                         icon={<CheckCircle2 />}
-                        title="Clear head. Clear list."
-                        text="Capture the next thing you want to move forward."
+                        title="No open tickets"
+                        text="Create a ticket to start tracking work."
                         action={newButton}
                       />
                     )}
                   </section>
-                  <section className="focus-note">
-                    <div className="focus-note-icon">
-                      <Sparkles size={21} />
+                  <section className="surface attention-panel">
+                    <div className="section-heading">
+                      <h2>Needs attention</h2>
                     </div>
-                    <h2>
-                      Big ideas start
-                      <br />
-                      with a small next step.
-                    </h2>
-                    <p>
-                      Give your next project a name. Add one ticket. Take it
-                      from there.
-                    </p>
-                    <button className="text-button" onClick={startProject}>
-                      Create a project <Plus size={16} />
-                    </button>
-                    <div className="paper-corner" />
+                    <div className="attention-summary">
+                      <div>
+                        <span>Overdue</span>
+                        <strong
+                          className={overdueIssues.length ? "overdue" : ""}
+                        >
+                          {overdueIssues.length}
+                        </strong>
+                      </div>
+                      <div>
+                        <span>Blocked by dependencies</span>
+                        <strong>{blockedIssues.length}</strong>
+                      </div>
+                    </div>
+                    <div className="current-cycle">
+                      <span className="subtle-label">Current cycle</span>
+                      {currentCycle ? (
+                        <>
+                          <button
+                            className="cycle-link"
+                            onClick={() => showCycle(currentCycle.id)}
+                          >
+                            <CircleDashed size={16} />
+                            <strong>{currentCycle.name}</strong>
+                            <ArrowUpRight size={14} />
+                          </button>
+                          <p>
+                            {dateLabel(currentCycle.startDate)} –{" "}
+                            {dateLabel(currentCycle.endDate)}
+                          </p>
+                          <div className="progress-caption">
+                            <span>
+                              {
+                                currentCycleIssues.filter(
+                                  (issue) => issue.status === "done",
+                                ).length
+                              }{" "}
+                              of {currentCycleIssues.length} completed
+                            </span>
+                            <strong>{percent(currentCycleIssues)}%</strong>
+                          </div>
+                          <div className="progress-track">
+                            <span
+                              style={{
+                                width: `${percent(currentCycleIssues)}%`,
+                              }}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <p>No cycle running today.</p>
+                          <button className="text-button" onClick={startCycle}>
+                            Create a cycle <Plus size={14} />
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </section>
                 </div>
                 <div className="section-heading">
-                  <h2>Projects taking shape</h2>
+                  <h2>
+                    Projects{" "}
+                    <span className="section-count">
+                      {data.projects.length}
+                    </span>
+                  </h2>
                   <button
                     className="text-button"
                     onClick={() => navigate("projects")}
@@ -809,10 +869,7 @@ export default function App() {
                           <span className="tag">{project.status}</span>
                         </div>
                         <h3>{project.name}</h3>
-                        <p>
-                          {project.description ||
-                            "Every project starts somewhere."}
-                        </p>
+                        <p>{project.description || "No description"}</p>
                         <div className="progress-caption">
                           <span>
                             {issues.filter((i) => i.status === "done").length}{" "}
@@ -837,7 +894,6 @@ export default function App() {
                   })}
                   <button className="new-project-card" onClick={startProject}>
                     <Plus size={23} />
-                    <span>A home for your next idea</span>
                     <strong>New project</strong>
                   </button>
                 </div>
@@ -856,7 +912,9 @@ export default function App() {
                           : "All tickets"}{" "}
                       <span className="heading-count">{filtered.length}</span>
                     </h1>
-                    <p>From a passing thought to a finished thing.</p>
+                    <p>
+                      Manage status, priority, and ownership across your work.
+                    </p>
                   </div>
                   {newButton}
                 </div>
@@ -937,12 +995,12 @@ export default function App() {
                     title={
                       query || statusFilter !== "all"
                         ? "No matching tickets"
-                        : "Your next step belongs here"
+                        : "No tickets yet"
                     }
                     text={
                       query
                         ? "Try another title, label, owner, or ticket number."
-                        : "Capture a task, add a little context, and give it a place to go."
+                        : "Create a ticket with context, status, and a project."
                     }
                     action={newButton}
                   />
@@ -1040,7 +1098,9 @@ export default function App() {
                 <div className="page-heading">
                   <div>
                     <h1>Projects</h1>
-                    <p>Keep the big picture close to the next step.</p>
+                    <p>
+                      Organize related work and track progress toward a target.
+                    </p>
                   </div>
                   <button className="button primary" onClick={startProject}>
                     <Plus size={16} /> New project
@@ -1049,7 +1109,7 @@ export default function App() {
                 {!data.projects.length ? (
                   <Empty
                     icon={<FolderKanban />}
-                    title="Give an idea a home"
+                    title="No projects yet"
                     text="A project brings related tickets and notes together, with a clear target."
                     action={
                       <button className="button" onClick={startProject}>
@@ -1119,7 +1179,7 @@ export default function App() {
                 <div className="page-heading">
                   <div>
                     <h1>Cycles</h1>
-                    <p>Choose a short horizon. Make steady progress.</p>
+                    <p>Plan a defined period of work and track completion.</p>
                   </div>
                   <button className="button primary" onClick={startCycle}>
                     <Plus size={16} /> New cycle
@@ -1128,7 +1188,7 @@ export default function App() {
                 {!data.cycles.length ? (
                   <Empty
                     icon={<CircleDashed />}
-                    title="Find your rhythm"
+                    title="No cycles yet"
                     text="Plan a focused period of work with a goal and a start and end date."
                     action={
                       <button className="button" onClick={startCycle}>
@@ -1165,7 +1225,7 @@ export default function App() {
                             </button>
                           </div>
                           <h2>{c.name}</h2>
-                          <p>{c.goal || "One focused stretch of work."}</p>
+                          <p>{c.goal || "No cycle goal set."}</p>
                           <div className="cycle-dates">
                             {dateLabel(c.startDate)} <span>to</span>{" "}
                             {dateLabel(c.endDate)}
@@ -1199,7 +1259,10 @@ export default function App() {
                 <div className="page-heading">
                   <div>
                     <h1>Notes</h1>
-                    <p>Keep the thinking next to the doing.</p>
+                    <p>
+                      Project briefs, decisions, and context linked to your
+                      work.
+                    </p>
                   </div>
                   <button className="button primary" onClick={startNote}>
                     <Plus size={16} /> New note
@@ -1208,7 +1271,7 @@ export default function App() {
                 {!data.notes.length ? (
                   <Empty
                     icon={<BookOpen />}
-                    title="A place for the context"
+                    title="No notes yet"
                     text="Write a project brief, capture decisions, or keep a release checklist."
                     action={
                       <button className="button" onClick={startNote}>
@@ -1226,7 +1289,7 @@ export default function App() {
                       >
                         <BookOpen size={20} />
                         <h2>{n.title}</h2>
-                        <p>{n.body.slice(0, 200) || "Add your thoughts…"}</p>
+                        <p>{n.body.slice(0, 200) || "Empty note"}</p>
                         <span className="tag">
                           {data.projects.find((p) => p.id === n.projectId)
                             ?.name || "Workspace note"}
@@ -1281,7 +1344,7 @@ export default function App() {
                     </div>
                   </section>
                   <section className="surface delivery-card">
-                    <h2>Needs a little attention</h2>
+                    <h2>Needs attention</h2>
                     <div className="attention-stat">
                       <strong>
                         {
@@ -1342,8 +1405,8 @@ export default function App() {
               <>
                 <div className="page-heading">
                   <div>
-                    <h1>Make yourself at home.</h1>
-                    <p>Your workspace, your data, your way of working.</p>
+                    <h1>Settings & backups</h1>
+                    <p>Configure this workspace and manage your data.</p>
                   </div>
                 </div>
                 <div className="settings-grid">
@@ -1511,7 +1574,7 @@ export default function App() {
                     </button>
                     <a
                       className="text-button"
-                      href="https://github.com/microyee-ai/zettel/blob/v0.1.0-alpha.1/docs/local-runtime.md"
+                      href="https://github.com/microyee-ai/zettel/blob/v0.1.0-alpha.2/docs/local-runtime.md"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -1519,7 +1582,7 @@ export default function App() {
                     </a>
                   </section>
                   <section className="surface settings-card reset-card">
-                    <h2>A clean page</h2>
+                    <h2>Reset workspace</h2>
                     <p>
                       Export your work before starting over. This replaces only
                       the workspace you are using now.
@@ -1535,7 +1598,9 @@ export default function App() {
               </>
             )}
             <footer className="app-footer">
-              <span>A little structure. A lot of progress.</span>
+              <span>
+                {data.issues.length} tickets · {data.projects.length} projects
+              </span>
               <span>Zettel · Local preview</span>
             </footer>
           </main>
@@ -2287,7 +2352,7 @@ function AiPlanner({
           </p>
           <a
             className="button"
-            href="https://github.com/microyee-ai/zettel/blob/v0.1.0-alpha.1/docs/local-runtime.md"
+            href="https://github.com/microyee-ai/zettel/blob/v0.1.0-alpha.2/docs/local-runtime.md"
             target="_blank"
             rel="noreferrer"
           >

@@ -20,16 +20,26 @@ test("landing desktop/mobile and workspace primary action", async ({
   page.on("pageerror", (error) => failures.push(error.message));
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: "Less managing. More making." }),
+    page.getByRole("heading", { name: "A sharper way to move work forward." }),
   ).toBeVisible();
   await page.screenshot({
     path: "test-results/landing-desktop.png",
     fullPage: true,
     animations: "disabled",
   });
+  const preview = page.getByLabel("Interactive sample workspace");
+  await preview.getByRole("button", { name: "Preview board view" }).click();
+  await expect(preview.locator(".lp-sample-board")).toBeVisible();
+  await preview
+    .getByRole("button", { name: /ZET-20 Verify backup and restore/ })
+    .click();
+  await expect(
+    page.getByLabel("Sample ticket details").getByRole("heading"),
+  ).toHaveText("Verify backup and restore");
+  await preview.getByRole("button", { name: "Preview list view" }).click();
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(
-    page.getByRole("heading", { name: "Less managing. More making." }),
+    page.getByRole("heading", { name: "A sharper way to move work forward." }),
   ).toBeVisible();
   expect(
     await page.evaluate(
@@ -47,7 +57,7 @@ test("landing desktop/mobile and workspace primary action", async ({
     .click();
   await page.getByRole("button", { name: "Start fresh", exact: false }).click();
   await expect(
-    page.getByRole("heading", { name: "Your work, in motion." }),
+    page.getByRole("heading", { name: "Workspace overview" }),
   ).toBeVisible();
   expect(
     await page.evaluate(
@@ -86,6 +96,7 @@ test("real planning-to-delivery workflow persists and exports/restores", async (
     .selectOption("active");
   await dialog.getByLabel("Target date").fill("2027-01-31");
   await dialog.getByRole("button", { name: "Save project" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await nav(page, "Cycles");
   await page.getByRole("button", { name: "New cycle", exact: true }).click();
   dialog = page.getByRole("dialog");
@@ -93,6 +104,7 @@ test("real planning-to-delivery workflow persists and exports/restores", async (
   await dialog.getByLabel("Start date").fill("2027-01-01");
   await dialog.getByLabel("End date").fill("2027-01-14");
   await dialog.getByRole("button", { name: "Save cycle" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByRole("button", { name: "New ticket" }).first().click();
   dialog = page.getByRole("dialog");
   await dialog
@@ -113,6 +125,7 @@ test("real planning-to-delivery workflow persists and exports/restores", async (
   await dialog
     .getByRole("button", { name: "Create ticket", exact: true })
     .click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByLabel("Search tickets").fill("Ship a verified workflow");
   await expect(
     page.getByRole("button", { name: /ZET-7 Ship a verified workflow/ }),
@@ -132,6 +145,7 @@ test("real planning-to-delivery workflow persists and exports/restores", async (
     .getByRole("combobox", { name: "Status", exact: true })
     .selectOption("done");
   await dialog.getByRole("button", { name: "Save changes" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.reload();
   await page.getByLabel("Search tickets").fill("Ship a verified workflow");
   await expect(page.getByLabel("Status of ZET-7")).toHaveValue("done");
@@ -147,6 +161,7 @@ test("real planning-to-delivery workflow persists and exports/restores", async (
     .fill("This project has linked, real tickets.");
   await expect(dialog.getByText("Ship a verified workflow")).toBeVisible();
   await dialog.getByRole("button", { name: "Save note" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByRole("button", { name: "Settings & backups" }).click();
   const downloadPromise = page.waitForEvent("download");
   await page
@@ -159,13 +174,11 @@ test("real planning-to-delivery workflow persists and exports/restores", async (
     backup.issues.find((i: { identifier: string }) => i.identifier === "ZET-7")
       .comments[0].body,
   ).toContain("persistence");
-  await page
-    .locator('input[type="file"]')
-    .setInputFiles({
-      name: "invalid.json",
-      mimeType: "application/json",
-      buffer: Buffer.from('{"schemaVersion":99}'),
-    });
+  await page.locator('input[type="file"]').setInputFiles({
+    name: "invalid.json",
+    mimeType: "application/json",
+    buffer: Buffer.from('{"schemaVersion":99}'),
+  });
   await expect(page.getByRole("alert")).toContainText(
     "Import could not be opened",
   );
@@ -177,12 +190,14 @@ test("real planning-to-delivery workflow persists and exports/restores", async (
     .getByRole("dialog")
     .getByRole("button", { name: "Reset workspace", exact: true })
     .click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByRole("button", { name: "Settings & backups" }).click();
   await page.locator('input[type="file"]').setInputFiles(path);
   await page
     .getByRole("dialog")
     .getByRole("button", { name: "Back up & restore" })
     .click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByLabel("Search tickets").fill("Ship a verified workflow");
   await expect(page.getByLabel("Status of ZET-7")).toHaveValue("done");
   await page.getByRole("button", { name: "Board view" }).click();

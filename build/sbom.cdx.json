@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:4498ea30-afda-4731-9cb4-c4de1f5a6b81",
+  "serialNumber": "urn:uuid:e9253908-ec17-471d-b8cd-1a8af0d8a206",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-10-05T16:39:01.882Z",
+    "timestamp": "2026-10-05T17:03:47.379Z",
     "lifecycles": [
       {
         "phase": "build"
@@ -19,13 +19,13 @@
       }
     ],
     "component": {
-      "bom-ref": "zettel@0.1.0-alpha.1",
+      "bom-ref": "zettel@0.1.0-alpha.2",
       "type": "library",
       "name": "capricorn",
-      "version": "0.1.0-alpha.1",
+      "version": "0.1.0-alpha.2",
       "scope": "required",
       "description": "Local-first work management for people who make things",
-      "purl": "pkg:npm/zettel@0.1.0-alpha.1",
+      "purl": "pkg:npm/zettel@0.1.0-alpha.2",
       "properties": [
         {
           "name": "cdx:npm:package:path",
@@ -48,24 +48,24 @@
   },
   "components": [
     {
-      "bom-ref": "@fontsource/manrope@5.3.0",
+      "bom-ref": "@fontsource-variable/inter@5.3.0",
       "type": "library",
-      "name": "@fontsource/manrope",
+      "name": "@fontsource-variable/inter",
       "version": "5.3.0",
       "scope": "required",
       "author": "Google Inc.",
-      "description": "Self-host the Manrope font in a neatly bundled NPM package.",
-      "purl": "pkg:npm/%40fontsource/manrope@5.3.0",
+      "description": "Self-host the Inter font in a neatly bundled NPM package.",
+      "purl": "pkg:npm/%40fontsource-variable/inter@5.3.0",
       "properties": [
         {
           "name": "cdx:npm:package:path",
-          "value": "node_modules/@fontsource/manrope"
+          "value": "node_modules/@fontsource-variable/inter"
         }
       ],
       "externalReferences": [
         {
           "type": "distribution",
-          "url": "https://registry.npmjs.org/@fontsource/manrope/-/manrope-5.3.0.tgz"
+          "url": "https://registry.npmjs.org/@fontsource-variable/inter/-/inter-5.3.0.tgz"
         },
         {
           "type": "vcs",
@@ -73,7 +73,7 @@
         },
         {
           "type": "website",
-          "url": "https://fontsource.org/fonts/manrope"
+          "url": "https://fontsource.org/fonts/inter"
         },
         {
           "type": "issue-tracker",
@@ -83,7 +83,7 @@
       "hashes": [
         {
           "alg": "SHA-512",
-          "content": "a1b2750efdfeb8203a1e51e05bcbb8046631251f489f61d6ee08c98657e512f92b8f55f5892130bb47d3a0bf896060bf1442857c8cf5b01b8f76ebdc2f680800"
+          "content": "3aea4be3cbdae093687dbf7bc3a358785f52ed6fe41cd28cd04afc0de9b99ea8b88de38bad5243a04f2d644a673099ad92f35b0751083cfc0771d905e9bd6850"
         }
       ],
       "licenses": [
@@ -3415,9 +3415,9 @@
   ],
   "dependencies": [
     {
-      "ref": "zettel@0.1.0-alpha.1",
+      "ref": "zettel@0.1.0-alpha.2",
       "dependsOn": [
-        "@fontsource/manrope@5.3.0",
+        "@fontsource-variable/inter@5.3.0",
         "@modelcontextprotocol/sdk@1.32.1",
         "dexie@4.4.6",
         "lucide-react@1.52.0",
@@ -3427,7 +3427,7 @@
       ]
     },
     {
-      "ref": "@fontsource/manrope@5.3.0",
+      "ref": "@fontsource-variable/inter@5.3.0",
       "dependsOn": []
     },
     {

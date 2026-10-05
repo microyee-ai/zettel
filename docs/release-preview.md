@@ -1,8 +1,10 @@
-# Preview release record: 0.1.0-alpha.1
+# Preview release record: 0.1.0-alpha.2
 
-Prepared 2026-10-05 from the current working implementation. **Status: release preparation, with platform and deployment verification still in progress.** Do not treat this document, configured CI, or a successful bundle as evidence of a published or installable release. The coordinator must replace pending entries with concrete results and links before announcing availability.
+Prepared 2026-10-05. **Status: alpha.1 published; alpha.2 visual refresh verified locally and being packaged.** The web preview is [zettel-iota.vercel.app](https://zettel-iota.vercel.app/). Publication and packaged-runtime evidence is recorded separately below; neither this document nor configured CI establishes product readiness.
 
 ## User-visible changes
+
+Alpha.2 replaces the pastel visual system with a charcoal interface, locally bundled Inter Variable, compact navigation and rows, restrained status colors, and a more useful overview with overdue/blocked counts and current-cycle progress. The landing page now centers a substantial interactive sample workspace with list/board switching and ticket selection. Mobile navigation gains a dismissible backdrop and Escape handling. Existing storage and backup formats are preserved. [Design rationale](brand.md) and [current reference evidence](research/visual-direction-2026-10-05.md) explain the choices.
 
 This is Zettel's first runnable local-work preview. It adds a branded landing page; a browser workspace with tickets, projects, cycles, notes, and basic delivery views; a shared work model; SQLite persistence for localhost and desktop; backup transfer; optional AI proposal review; and a stdio MCP bridge. The product is intended to begin with independent makers and small software teams while retaining the full [enterprise and programmable-workspace ambition](product-research.md).
 
@@ -13,8 +15,8 @@ The workflow starts with an empty workspace or an explicitly chosen sample proje
 | Deliverable | Current evidence/status | Publication requirement |
 | --- | --- | --- |
 | Source checkout | Implementation exists in this repository; source-run commands are in [README](../README.md) | Record the exact source revision for any release |
-| Web deployment | Coordinator verification pending; no URL asserted in this record | Live landing/app links, working CTAs, browser create/edit/reload/restore evidence, mobile/keyboard review |
-| macOS Apple silicon ZIP | Local packaging and artifact verification assigned to the coordinator; pending evidence | Actual asset URL, bytes/hash, exact OS/architecture, launch/create/restart/export results, signing state |
+| Web deployment | [Landing](https://zettel-iota.vercel.app/) and [app](https://zettel-iota.vercel.app/app) published; alpha.1 independently verified, alpha.2 publication pending | Record deployment revision and repeat live smoke after restyle |
+| macOS Apple silicon ZIP | [Alpha.1 published](https://github.com/microyee-ai/zettel/releases/tag/v0.1.0-alpha.1); alpha.2 packaging pending | Alpha.1 launch/create/restart/MCP/export/reset/restore passed; new artifact must repeat checks |
 | macOS Intel ZIP | Candidate CI matrix configured; no successful run or install claimed | Run URL and independently exercised install/launch/restart evidence |
 | Windows x64 installer | Candidate CI matrix configured; no successful run or install claimed | Run URL, installer behavior, launch/restart, data paths, signing state |
 | Linux x64 AppImage | Candidate CI matrix configured; no successful run or install claimed | Run URL, tested distribution/prerequisites, launch/restart, desktop integration behavior |
@@ -90,10 +92,10 @@ This first preview does not have a prior released-version migration fixture. Sta
 
 ## Remaining release and product work
 
-- Complete rendered browser and packaged desktop verification; resolve open findings in [the independent verification record](verification.md).
+- Repeat relevant rendered and packaged checks for each new artifact; resolve open findings in [the independent verification record](verification.md).
 - Verify each advertised platform separately, signing/notarization, actual public download links and checksums, and app update/recovery behavior.
 - Attach dependency notices, an SBOM, vulnerability review, and build provenance to a published release; identify exact scope rather than treating a clean registry audit as a full security review.
-- Verify the live Vercel deployment and its storage/route behavior independently of a successful static build.
+- Repeat live Vercel route and storage checks after each material release; alpha.1 has independent production evidence.
 - Validate a real AI provider and the intended client integrations. Current provider tests exercise a stub contract; MCP protocol tests exercise a local SDK client.
 - Implement paid checkout, entitlements, refunds/support terms, and signed official distribution before offering a paid license. The proposed $49 desktop offer grants no current purchase entitlement and does not restrict Apache-2.0 rights.
 - Continue shared workspaces, identity, collaboration, team permissions, advanced planning, programmable documents/tables, automation, and enterprise deployment in the [delivery plan](delivery-plan.md) and [capability ledger](research/capability-ledger.md).
