@@ -1,6 +1,6 @@
 # Preview release record: 0.1.0-alpha.2
 
-Prepared 2026-10-05. **Status: alpha.1 published; alpha.2 visual refresh verified locally and being packaged.** The web preview is [zettel-iota.vercel.app](https://zettel-iota.vercel.app/). Publication and packaged-runtime evidence is recorded separately below; neither this document nor configured CI establishes product readiness.
+Prepared 2026-10-05. **Status: alpha.2 web and macOS Apple Silicon developer preview published and exercised.** The web preview is [zettel-iota.vercel.app](https://zettel-iota.vercel.app/). Publication and packaged-runtime evidence is recorded separately below; neither this document nor configured CI establishes product readiness.
 
 ## User-visible changes
 
@@ -15,8 +15,8 @@ The workflow starts with an empty workspace or an explicitly chosen sample proje
 | Deliverable | Current evidence/status | Publication requirement |
 | --- | --- | --- |
 | Source checkout | Implementation exists in this repository; source-run commands are in [README](../README.md) | Record the exact source revision for any release |
-| Web deployment | [Landing](https://zettel-iota.vercel.app/) and [app](https://zettel-iota.vercel.app/app) published; alpha.1 independently verified, alpha.2 publication pending | Record deployment revision and repeat live smoke after restyle |
-| macOS Apple silicon ZIP | [Alpha.1 published](https://github.com/microyee-ai/zettel/releases/tag/v0.1.0-alpha.1); alpha.2 packaging pending | Alpha.1 launch/create/restart/MCP/export/reset/restore passed; new artifact must repeat checks |
+| Web deployment | [Landing](https://zettel-iota.vercel.app/) and [app](https://zettel-iota.vercel.app/app) published; alpha.2 deployment `dpl_EBSPEMswzyWPZuubNkAJtMR45L3E` verified below | Preserve dated evidence for subsequent deployments |
+| macOS Apple silicon ZIP | [Alpha.2 published](https://github.com/microyee-ai/zettel/releases/tag/v0.1.0-alpha.2), exact artifact evidence below | Launch/create/restart/MCP/export/reset/restore passed; trusted signing remains a separate gate |
 | macOS Intel ZIP | Candidate CI matrix configured; no successful run or install claimed | Run URL and independently exercised install/launch/restart evidence |
 | Windows x64 installer | Candidate CI matrix configured; no successful run or install claimed | Run URL, installer behavior, launch/restart, data paths, signing state |
 | Linux x64 AppImage | Candidate CI matrix configured; no successful run or install claimed | Run URL, tested distribution/prerequisites, launch/restart, desktop integration behavior |
@@ -24,6 +24,18 @@ The workflow starts with an empty workspace or an explicitly chosen sample proje
 | Paid desktop license / hosted teams | Not available | Payment, entitlement, policy and service gates in the delivery plan |
 
 Do not add speculative download URLs. A temporary Actions artifact is a build candidate with retention limits; it is not automatically a supported public release. Candidate builds are produced without publisher signing credentials. An ad-hoc platform signature, if produced by the packager, is not a verified publisher signature or macOS notarization.
+
+## Published alpha.2 evidence
+
+- Source runtime/UI/build revision: `bb55d65b6bfcd4164ccbecb79fc86d425bd96a8f`. The SBOM build timestamp/serial are regenerated, so binary reproducibility is not claimed.
+- [Application CI](https://github.com/microyee-ai/zettel/actions/runs/37345848932) passed on this revision: clean Node 24 install, build, 15 storage/protocol tests, 4 Chromium workflow tests, and runtime bundle checks. Repository validation also passed.
+- Production deployment: `dpl_EBSPEMswzyWPZuubNkAJtMR45L3E`, [deployment URL](https://zettel-4cvwocdxc-my-team-ae70891f.vercel.app), aliased to [zettel-iota.vercel.app](https://zettel-iota.vercel.app/). Built with Vercel CLI 62.2.0. Independent post-deployment checks confirmed the new headline/Inter/dark surfaces, desktop/mobile no overflow, `/app`, workspace entry, actual ticket creation/status/reload persistence, no observed script/network failures, and zero serious/critical axe findings.
+- Published ZIP: [`Zettel-0.1.0-alpha.2-arm64-mac.zip`](https://github.com/microyee-ai/zettel/releases/download/v0.1.0-alpha.2/Zettel-0.1.0-alpha.2-arm64-mac.zip), **127,184,343 bytes**, SHA-256 **`b6a0f33add8860afdf42485b0cf07a59091bf93038f7f9409399ace1347ae8e1`**. All seven release asset digests were compared with the local bytes after upload.
+- Packaged Electron **44.5.1**, embedded Node **24.21.0**, macOS **25.5.0**, **arm64**. The actual packaged executable passed create, complete quit/restart persistence, bundled MCP writes visible in the GUI, actual export/reset/import with exact ticket equality, sandbox/context isolation, narrow preload, blocked external navigation and popups. The automated download supplies a temporary save path; manual native save-dialog coverage is not claimed.
+- `unzip -tq` and `codesign --verify --deep --strict` passed. `spctl --assess --type execute` exited **3**, rejecting publisher trust as expected for this ad-hoc signed, unnotarized build. No operating-system protection was disabled.
+- [Release assets](https://github.com/microyee-ai/zettel/releases/tag/v0.1.0-alpha.2) include `SHA256SUMS`, `artifact-manifest.json`, `desktop-smoke.json`, notices, SBOM and ZIP blockmap. Alpha.1 remains immutable and available separately.
+
+These establish a scoped developer preview, not trusted commercial distribution, real-provider AI verification, paid licensing, collaboration, or full product readiness.
 
 ## Reproduce the builds
 
