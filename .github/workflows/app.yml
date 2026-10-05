@@ -1,0 +1,56 @@
+name: Application
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: application-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Build and test on Node 24
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Typecheck and build web app
+        run: npm run build
+      - name: Test work model, persistence, HTTP and MCP
+        run: npm test
+      - name: Install Chromium for browser verification
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Exercise browser workflows
+        run: npm run test:e2e
+      - name: Bundle desktop and standalone runtime entries
+        run: npm run desktop:build
+      - name: Check bundled runtime syntax
+        run: |
+          node --check dist-desktop/main.cjs
+          node --check dist-desktop/preload.cjs
+          node --check dist-server/index.mjs
+          node --check dist-server/mcp.mjs
+      - name: Upload browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: browser-failure-${{ github.sha }}
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 14

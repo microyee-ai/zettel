@@ -1,0 +1,111 @@
+name: Desktop candidates
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package:
+    name: ${{ matrix.platform }} ${{ matrix.arch }} candidate
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            platform: macos
+            arch: arm64
+            builder_args: --mac zip --arm64
+          - runner: macos-15-intel
+            platform: macos
+            arch: x64
+            builder_args: --mac zip --x64
+          - runner: windows-2025
+            platform: windows
+            arch: x64
+            builder_args: --win nsis --x64
+          - runner: ubuntu-24.04
+            platform: linux
+            arch: x64
+            builder_args: --linux AppImage --x64
+    defaults:
+      run:
+        shell: bash
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Typecheck and build web app
+        run: npm run build
+      - name: Test local work and integration contracts
+        run: npm test
+      - name: Bundle desktop and standalone runtime entries
+        run: npm run desktop:build
+      - name: Generate bundled dependency notices and SBOM
+        run: node scripts/license-notices.mjs
+      - name: Package candidate without publishing
+        run: npx --no-install electron-builder ${{ matrix.builder_args }} --publish never
+      - name: Record checksums and candidate provenance
+        env:
+          ZETTEL_CANDIDATE_PLATFORM: ${{ matrix.platform }}
+          ZETTEL_CANDIDATE_ARCH: ${{ matrix.arch }}
+          ZETTEL_WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { copyFile, readdir, readFile, stat, writeFile } from 'node:fs/promises';
+          const pkg = JSON.parse(await readFile('package.json', 'utf8'));
+          const names = (await readdir('release')).filter(name => /\.(zip|exe|AppImage)$/.test(name)).sort();
+          if (!names.length) throw new Error('No packaged candidate was produced');
+          for (const name of ['THIRD_PARTY_NOTICES.txt', 'sbom.cdx.json']) {
+            await copyFile(`build/${name}`, `release/${name}`);
+            names.push(name);
+          }
+          const files = [];
+          for (const name of names) {
+            const path = `release/${name}`;
+            files.push({ name, bytes: (await stat(path)).size, sha256: createHash('sha256').update(await readFile(path)).digest('hex') });
+          }
+          await writeFile('release/SHA256SUMS', files.map(file => `${file.sha256}  ${file.name}`).join('\n') + '\n');
+          await writeFile('release/artifact-manifest.json', JSON.stringify({
+            product: 'Zettel', version: pkg.version, sourceCommit: process.env.GITHUB_SHA,
+            runUrl: process.env.ZETTEL_WORKFLOW_RUN_URL,
+            platform: process.env.ZETTEL_CANDIDATE_PLATFORM, architecture: process.env.ZETTEL_CANDIDATE_ARCH,
+            nodeVersion: process.version, electronVersion: pkg.devDependencies.electron,
+            publisherSigning: 'Not configured; developer build candidate',
+            installVerification: 'Not exercised by this workflow',
+            publishedRelease: false, files,
+          }, null, 2) + '\n');
+          NODE
+      - name: Upload candidate and checksums
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: zettel-${{ matrix.platform }}-${{ matrix.arch }}-${{ github.sha }}
+          path: |
+            release/*.zip
+            release/*.exe
+            release/*.AppImage
+            release/SHA256SUMS
+            release/artifact-manifest.json
+            release/THIRD_PARTY_NOTICES.txt
+            release/sbom.cdx.json
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
