@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
-import { chmod, mkdir, mkdtemp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import { chmod, lstat, mkdir, mkdtemp, readFile, readdir, realpath, rm, stat, writeFile } from 'node:fs/promises';
 import { arch, platform, release, tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -32,8 +32,8 @@ if (!options.artifacts.length) for (const extension of extensions) assert.ok(art
 function command(binary, args, { cwd = root, timeout = 60000, env = process.env, windowsVerbatimArguments = false } = {}) {
   return new Promise((resolveCommand, reject) => {
     const child = spawn(binary, args, { cwd, env, windowsVerbatimArguments, detached: platform() !== 'win32', stdio: ['ignore', 'pipe', 'pipe'] });
-    let stdout = ''; let stderr = ''; let timedOut = false;
-    child.stdout.on('data', data => { stdout = (stdout + data).slice(-1000000); });
+    let stdout = ''; let stderr = ''; let timedOut = false; const stdoutHash = createHash('sha256');
+    child.stdout.on('data', data => { stdoutHash.update(data); stdout = (stdout + data).slice(-1000000); });
     child.stderr.on('data', data => { stderr = (stderr + data).slice(-1000000); });
     const timer = setTimeout(() => {
       timedOut = true;
@@ -42,7 +42,8 @@ function command(binary, args, { cwd = root, timeout = 60000, env = process.env,
         // Give Playwright's SIGTERM handler a chance to close Electron. Then reap
         // the entire owned process group so timed-out smoke runs cannot leak apps.
         child.kill('SIGTERM');
-        const cleanup = setTimeout(() => { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }, 5000);
+        setTimeout(() => child.kill('SIGTERM'), 2000);
+        setTimeout(() => { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }, 10000);
         // Keep the cleanup timer alive even if the verifier child exits first.
       }
     }, timeout);
@@ -50,13 +51,16 @@ function command(binary, args, { cwd = root, timeout = 60000, env = process.env,
     child.once('close', (code, signal) => {
       clearTimeout(timer);
       if (code !== 0 || timedOut) reject(new Error(`${basename(binary)} ${args[0] || ''} ${timedOut ? 'timed out' : `exited ${code ?? signal}`}\n${stderr}\n${stdout}`));
-      else resolveCommand({ stdout, stderr });
+      else resolveCommand({ stdout, stderr, stdoutSha256: stdoutHash.digest('hex') });
     });
   });
 }
+async function assertNoWindowsInstallation() {
+  await command('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', "$entries = Get-ItemProperty 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*' -ErrorAction SilentlyContinue; if ($entries | Where-Object { $_.DisplayName -eq 'Zettel' }) { throw 'Zettel installation registration remains; use a clean account or inspect the failed uninstall' }; foreach ($folder in @([Environment]::GetFolderPath('Desktop'), [Environment]::GetFolderPath('Programs'))) { if (Test-Path -LiteralPath (Join-Path $folder 'Zettel.lnk')) { throw 'A Zettel shortcut exists; use a clean account or inspect the failed uninstall' } }"]);
+}
 const sourceCommit = (await command('git', ['rev-parse', 'HEAD'])).stdout.trim();
-const sourceDiff = (await command('git', ['diff', 'HEAD', '--binary'])).stdout;
-const source = { commit: sourceCommit, trackedTreeDirty: !!sourceDiff, trackedDiffSha256: sourceDiff ? createHash('sha256').update(sourceDiff).digest('hex') : null,
+const sourceDiff = await command('git', ['diff', 'HEAD', '--binary']);
+const source = { commit: sourceCommit, trackedTreeDirty: !!sourceDiff.stdout, trackedDiffSha256: sourceDiff.stdout ? sourceDiff.stdoutSha256 : null,
   workflowRunUrl: process.env.ZETTEL_WORKFLOW_RUN_URL || null };
 let failures = 0;
 for (const artifact of artifacts) {
@@ -69,7 +73,7 @@ for (const artifact of artifacts) {
     artifact: { name, bytes: bytes.length, sha256 }, source, host: { platform: platformName, architecture: arch(), osRelease: release(), node: process.version, githubActions: process.env.GITHUB_ACTIONS === 'true', runnerImage: process.env.ImageOS || null },
     installation: { status: 'not-run' }, smoke: { status: 'not-run' }, cleanup: { status: 'not-run' },
     unverified: ['Manual clean-host installation and native file dialogs', 'Publisher identity, notarization and OS trust prompts', 'Upgrade from an earlier supported version', 'Automatic updates', 'External AI provider'] };
-  let mounted = false; let uninstaller; let helper; let stage = 'artifact-installation';
+  let mounted = false; let uninstaller; let nsisAttempted = false; let helper; let stage = 'artifact-installation';
   const mount = join(workspace, 'mounted');
   try {
     assert.ok(extensions.some(extension => artifact.endsWith(extension)), 'Artifact extension does not match this host');
@@ -95,13 +99,13 @@ for (const artifact of artifacts) {
       evidence.installation.signingDetails = signing.stderr.trim();
     } else if (platform() === 'win32') {
       assert.ok(process.env.GITHUB_ACTIONS === 'true' || options.allowNsisInstall, 'NSIS modifies per-user installation registration. Use a disposable Windows account and opt in with --allow-nsis-install.');
-      const existing = await command('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', "$entries = Get-ItemProperty 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*' -ErrorAction SilentlyContinue; if ($entries | Where-Object { $_.DisplayName -eq 'Zettel' }) { throw 'Existing Zettel installation found; use a clean account' }"]);
-      assert.equal(existing.stdout.trim(), '');
+      await assertNoWindowsInstallation();
       const installed = join(workspace, 'installed');
       // NSIS requires /D last and its path unquoted, even when it contains spaces.
+      uninstaller = join(installed, 'Uninstall Zettel.exe');
+      nsisAttempted = true;
       await command(artifact, ['/S', '/currentuser', `/D=${installed}`], { timeout: 180000, windowsVerbatimArguments: true });
       executable = join(installed, 'Zettel.exe');
-      uninstaller = join(installed, 'Uninstall Zettel.exe');
       evidence.installation.method = 'Actual NSIS installer run silently per-user into an isolated directory';
       evidence.unverified.push('Interactive NSIS wizard and SmartScreen behavior');
     } else {
@@ -112,7 +116,12 @@ for (const artifact of artifacts) {
       evidence.unverified.push('FUSE mount/direct AppImage launch, desktop integration and other Linux distributions');
       if (options.linuxSandboxHelper) {
         // Only the disposable artifact's Chromium helper changes. No global policy changes.
-        helper = join(workspace, 'squashfs-root', 'chrome-sandbox');
+        const expectedHelper = join(workspace, 'squashfs-root', 'chrome-sandbox');
+        const info = await lstat(expectedHelper);
+        assert.ok(info.isFile() && !info.isSymbolicLink(), 'Sandbox helper must be a regular file, never a symlink');
+        assert.equal(await realpath(dirname(expectedHelper)), join(await realpath(workspace), 'squashfs-root'), 'The extraction directory itself must not redirect outside the temporary workspace');
+        assert.equal(await realpath(expectedHelper), join(await realpath(join(workspace, 'squashfs-root')), 'chrome-sandbox'), 'Sandbox helper must stay inside the extracted AppDir');
+        helper = expectedHelper;
         await command('sudo', ['-n', 'chown', 'root:root', helper]);
         await command('sudo', ['-n', 'chmod', '4755', helper]);
         const helperStat = await stat(helper);
@@ -141,7 +150,7 @@ for (const artifact of artifacts) {
   } finally {
     try {
       if (mounted) await command('hdiutil', ['detach', mount]);
-      if (uninstaller) {
+      if (nsisAttempted && await stat(uninstaller).catch(() => null)) {
         await command(uninstaller, ['/S', '/currentuser'], { timeout: 90000 });
         // NSIS may re-exec its uninstaller in TEMP and return before deletion completes.
         for (let attempt = 0; attempt < 100; attempt++) {
@@ -151,7 +160,14 @@ for (const artifact of artifacts) {
         assert.equal(await stat(uninstaller).catch(() => null), null, 'NSIS uninstall must finish before temporary cleanup');
         evidence.cleanup.nsisUninstall = 'passed';
       }
-      if (helper) await command('sudo', ['-n', 'chmod', '0755', helper]);
+      if (nsisAttempted) { await assertNoWindowsInstallation(); evidence.cleanup.nsisRegistrationAndShortcutsAbsent = true; }
+      if (helper) {
+        const info = await lstat(helper);
+        assert.ok(info.isFile() && !info.isSymbolicLink(), 'Sandbox helper changed during verification; refusing privileged cleanup');
+        assert.equal(await realpath(dirname(helper)), join(await realpath(workspace), 'squashfs-root'));
+        assert.equal(await realpath(helper), join(await realpath(join(workspace, 'squashfs-root')), 'chrome-sandbox'));
+        await command('sudo', ['-n', 'chmod', '0755', helper]);
+      }
       await rm(workspace, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
       evidence.cleanup.status = 'passed';
     } catch (error) { evidence.status = 'failed'; evidence.cleanup = { status: 'failed', error: error instanceof Error ? error.message : String(error), retainedPath: workspace }; }

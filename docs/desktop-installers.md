@@ -28,7 +28,7 @@ The verifier does not launch `release/mac-*`, `win-unpacked`, or `linux-unpacked
 | --- | --- | --- |
 | macOS ZIP | `ditto -x -k`, verify app signature integrity, launch extracted app | Signature integrity can pass with an ad-hoc identity; this does not prove Developer ID or notarization |
 | macOS DMG | `hdiutil verify`, read-only mount, copy `Zettel.app` out, detach image, check and launch the copy | Does not automate Finder drag-and-drop, quarantine, or Gatekeeper approval |
-| Windows NSIS | Refuse an existing registered Zettel install; run the actual installer with `/S /currentuser /D=...`; launch installed executable; uninstall afterward | Silent install does not cover interactive wizard or SmartScreen |
+| Windows NSIS | Refuse an existing registered Zettel install; run the actual installer with `/S /currentuser /D=...`; launch installed executable; uninstall after any install attempt and check registration/shortcut cleanup | Silent install does not cover interactive wizard or SmartScreen |
 | Linux AppImage | Execute the artifact's `--appimage-extract` entrypoint; launch its shipped Electron executable from the resulting AppDir | Does not prove FUSE mounting, desktop integration, or compatibility with other distributions |
 
 Windows verification is allowed automatically on the disposable GitHub Actions runner. Locally it requires `--allow-nsis-install` in a disposable Windows account; NSIS creates normal per-user installation registration even with an isolated installation directory. The verifier refuses a pre-existing Zettel registration to avoid upgrading or uninstalling the user's installed copy.

@@ -16,9 +16,23 @@ const environment = Object.fromEntries(Object.entries(process.env).filter((entry
   typeof entry[1] === 'string' && !['ELECTRON_RUN_AS_NODE', 'NODE_OPTIONS', 'CHROME_DEVEL_SANDBOX', 'ELECTRON_DISABLE_SANDBOX'].includes(entry[0]) && !entry[0].startsWith('ZETTEL_AI_')));
 const evidence: Record<string, unknown> = { schemaVersion: 1, status: 'running', startedAt: new Date().toISOString(), executable: executablePath, packaged: !!packagedExecutable, platform: process.platform, architecture: process.arch, checks: {} };
 const checks = evidence.checks as Record<string, unknown>;
-const launch = () => _electron.launch({ executablePath, args: [...(packagedExecutable ? [] : [resolve('.')]), `--user-data-dir=${join(directory, 'profile')}`], cwd: directory,
-  chromiumSandbox: true, env: { ...environment, ZETTEL_DATA_DIR: directory }, timeout: 30000 });
 let app: ElectronApplication | undefined;
+let pendingLaunch: Promise<ElectronApplication> | undefined;
+let activeClient: Client | undefined;
+let interrupted = false;
+const launch = () => {
+  if (interrupted) throw new Error('Verification was interrupted');
+  const launching = _electron.launch({ executablePath, args: [...(packagedExecutable ? [] : [resolve('.')]), `--user-data-dir=${join(directory, 'profile')}`], cwd: directory,
+    chromiumSandbox: true, env: { ...environment, ZETTEL_DATA_DIR: directory }, timeout: 30000 });
+  pendingLaunch = launching;
+  void launching.then(() => { pendingLaunch = undefined; }, () => { pendingLaunch = undefined; });
+  return launching;
+};
+let interrupt!: (error: Error) => void;
+const interruption = new Promise<never>((_, reject) => { interrupt = reject; });
+const terminate = () => { interrupted = true; interrupt(new Error('Desktop verification interrupted by SIGTERM')); };
+process.on('SIGTERM', terminate);
+const watchdog = setTimeout(() => { interrupted = true; interrupt(new Error('Desktop smoke exceeded its 180-second deadline')); }, 180000);
 let stage = 'launch';
 async function bounded<T>(operation: Promise<T>, timeout: number, description: string): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -35,13 +49,16 @@ async function quit() {
     assert.equal(existsSync(join(directory, 'desktop-connection.json')), false, 'Graceful quit removes the service connection file');
     app = undefined;
   } catch (error) {
-    child.kill('SIGKILL');
+    if (child.pid) {
+      if (process.platform === 'win32') spawn('taskkill', ['/PID', String(child.pid), '/T', '/F'], { stdio: 'ignore' }).on('error', () => {});
+      else { try { process.kill(-child.pid, 'SIGKILL'); } catch { child.kill('SIGKILL'); } }
+    }
     await bounded(new Promise<void>(resolveExit => { if (child.exitCode !== null || child.signalCode !== null) resolveExit(); else child.once('exit', () => resolveExit()); }), 5000, 'Failed application cleanup').catch(() => {});
     app = undefined;
     throw error;
   }
 }
-try {
+async function runSmoke() {
   app = await launch(); let page = await app.firstWindow();
   app.context().setDefaultTimeout(15000);
   await page.getByRole('button', { name: 'New ticket' }).first().waitFor();
@@ -93,7 +110,18 @@ try {
   assert.equal(await page.evaluate(() => window.open('https://example.com') === null), true);
   await page.evaluate(() => { window.location.href = 'https://example.com'; });
   await page.waitForTimeout(200); assert.equal(page.url(), originalUrl);
+  const navigationState = await app.evaluate(({ BrowserWindow }) => {
+    const contents = BrowserWindow.getAllWindows()[0].webContents;
+    return { url: contents.getURL(), loading: contents.isLoading() };
+  });
+  assert.deepEqual(navigationState, { url: originalUrl, loading: false });
+  assert.equal(await page.evaluate(() => document.body.textContent?.includes('Desktop survives restart')), true);
   assert.equal(app.windows().length, 1); checks.blockedNavigationAndPopup = true;
+  // Chromium canceled the foreign navigation, but CDP can leave Playwright's
+  // pending-navigation bookkeeping active. Reload the proven local document
+  // before further UI interaction; retain all boundary assertions above.
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.getByRole('button', { name: /ZET-1 Desktop survives restart/ }).waitFor();
   stage = 'single-instance-lifecycle';
   const connectionBeforeSecondLaunch = readFileSync(join(directory, 'desktop-connection.json'), 'utf8');
   if (process.platform === 'darwin') {
@@ -124,7 +152,7 @@ try {
   const restored = await page.evaluate(() => window.zettel!.load());
   assert.deepEqual(restored, before); checks.persistedAfterRestart = true;
   stage = 'bundled-mcp';
-  const client = new Client({ name: 'desktop-bundle-verifier', version: '1.0.0' });
+  const client = new Client({ name: 'desktop-bundle-verifier', version: '1.0.0' }); activeClient = client;
   const bridgePath = packagedExecutable ? join(runtime.resourcesPath, 'mcp.mjs') : resolve('dist-server/mcp.mjs');
   assert.ok(existsSync(bridgePath), 'The installed distribution must contain its own MCP bridge');
   try {
@@ -134,7 +162,7 @@ try {
     await page.reload();
     await page.getByRole('button', { name: /ZET-2 Packaged MCP uses the desktop workspace/ }).waitFor();
     checks.bundledMcpSharedStorage = true;
-  } finally { await bounded(client.close(), 10000, 'MCP close'); }
+  } finally { await bounded(client.close(), 10000, 'MCP close'); activeClient = undefined; }
   stage = 'native-export';
   await page.getByRole('button', { name: 'Settings & backups' }).click();
   stage = 'documentation-handoff';
@@ -196,13 +224,29 @@ try {
     checks.renderedWorkspaceScreenshot = true;
   }
   stage = 'final-quit'; await quit();
+}
+try {
+  await Promise.race([runSmoke(), interruption]);
   evidence.status = 'passed';
 } catch (error) {
   evidence.status = 'failed'; evidence.failedStage = stage; evidence.error = error instanceof Error ? error.message : String(error);
   process.exitCode = 1;
 } finally {
-  try { await quit(); rmSync(directory, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); checks.disposableDataCleaned = true; }
-  catch (error) { evidence.status = 'failed'; evidence.cleanupError = error instanceof Error ? error.message : String(error); process.exitCode = 1; }
+  clearTimeout(watchdog);
+  process.removeListener('SIGTERM', terminate);
+  const cleanupErrors: string[] = [];
+  const attemptCleanup = async (name: string, operation: () => Promise<void>) => {
+    try { await operation(); } catch (error) { cleanupErrors.push(`${name}: ${error instanceof Error ? error.message : String(error)}`); }
+  };
+  await attemptCleanup('Pending launch', async () => { if (pendingLaunch) app = await bounded(pendingLaunch, 35000, 'Interrupted launch cleanup'); });
+  await attemptCleanup('MCP', async () => { if (activeClient) await bounded(activeClient.close(), 10000, 'Interrupted MCP cleanup'); });
+  // Always attempt Electron shutdown, including when MCP cleanup has failed.
+  await attemptCleanup('Electron', quit);
+  if (!cleanupErrors.length) await attemptCleanup('Disposable data', async () => { rmSync(directory, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 }); });
+  checks.disposableDataCleaned = cleanupErrors.length === 0;
+  if (cleanupErrors.length) {
+    evidence.status = 'failed'; evidence.cleanupErrors = cleanupErrors; evidence.retainedDataPath = directory; process.exitCode = 1;
+  }
   evidence.completedAt = new Date().toISOString();
   if (process.env.ZETTEL_SMOKE_EVIDENCE) {
     mkdirSync(dirname(resolve(process.env.ZETTEL_SMOKE_EVIDENCE)), { recursive: true });
