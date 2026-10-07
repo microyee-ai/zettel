@@ -610,8 +610,8 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
               </h2>
             </div>
             <p>
-              The local workspace is available today. Official commercial
-              desktop releases and hosted teams are the next chapters.
+              The browser workspace and desktop preview are free. We’re
+              evaluating optional support and services as Zettel grows.
             </p>
           </div>
           <div className="lp-price-table">
@@ -635,19 +635,17 @@ export default function Landing({ onOpen }: { onOpen: () => void }) {
             </article>
             <article>
               <div>
-                <h3>Desktop</h3>
-                <p>A proposed official distribution.</p>
+                <h3>Desktop preview</h3>
+                <p>Your work, saved on your computer.</p>
               </div>
               <div className="lp-plan-details">
-                <span>Planned signed desktop releases</span>
-                <span>Proposed updates and support</span>
-                <span>Free source builds remain available</span>
+                <span>macOS Apple Silicon developer preview</span>
+                <span>Local SQLite storage and backups</span>
+                <span>Publisher signing is still pending</span>
               </div>
               <div className="lp-price">
-                <strong>
-                  $49 <small>one-time</small>
-                </strong>
-                <span>Proposed · No purchase available</span>
+                <strong>Free</strong>
+                <span>Optional paid offers are under evaluation</span>
                 <a href="#downloads" className="lp-text-link">
                   Preview availability <ArrowRight size={14} />
                 </a>

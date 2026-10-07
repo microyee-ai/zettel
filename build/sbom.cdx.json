@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:04eee8a5-bef3-4b73-949d-08b5d11843b2",
+  "serialNumber": "urn:uuid:***",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-10-05T17:06:04.041Z",
+    "timestamp": "2026-10-07T20:32:27.565Z",
     "lifecycles": [
       {
         "phase": "build"
@@ -15,22 +15,18 @@
       {
         "vendor": "npm",
         "name": "cli",
-        "version": "10.9.0"
+        "version": "11.6.2"
       }
     ],
     "component": {
-      "bom-ref": "zettel@0.1.0-alpha.2",
+      "bom-ref": "zettel@0.1.0-alpha.3",
       "type": "library",
-      "name": "capricorn",
-      "version": "0.1.0-alpha.2",
+      "name": "anemone",
+      "version": "0.1.0-alpha.3",
       "scope": "required",
       "description": "Local-first work management for people who make things",
-      "purl": "pkg:npm/zettel@0.1.0-alpha.2",
+      "purl": "pkg:npm/zettel@0.1.0-alpha.3",
       "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": ""
-        },
         {
           "name": "cdx:npm:package:private",
           "value": "true"
@@ -56,12 +52,7 @@
       "author": "Google Inc.",
       "description": "Self-host the Inter font in a neatly bundled NPM package.",
       "purl": "pkg:npm/%40fontsource-variable/inter@5.3.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@fontsource-variable/inter"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -74,10 +65,6 @@
         {
           "type": "website",
           "url": "https://fontsource.org/fonts/inter"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/fontsource/font-files/issues"
         }
       ],
       "hashes": [
@@ -100,15 +87,10 @@
       "name": "@hono/node-server",
       "version": "2.1.3",
       "scope": "required",
-      "author": "Yusuke Wada",
+      "author": "Yusuke Wada <yusuke@kamawada.com> (https://github.com/yusukebe)",
       "description": "Node.js Adapter for Hono",
       "purl": "pkg:npm/%40hono/node-server@2.1.3",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@hono/node-server"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -121,10 +103,6 @@
         {
           "type": "website",
           "url": "https://github.com/honojs/node-server"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/honojs/node-server/issues"
         }
       ],
       "hashes": [
@@ -147,15 +125,10 @@
       "name": "@modelcontextprotocol/sdk",
       "version": "1.32.1",
       "scope": "required",
-      "author": "Anthropic, PBC",
+      "author": "Anthropic, PBC (https://anthropic.com)",
       "description": "Model Context Protocol implementation for TypeScript",
       "purl": "pkg:npm/%40modelcontextprotocol/sdk@1.32.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/@modelcontextprotocol/sdk"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -168,10 +141,6 @@
         {
           "type": "website",
           "url": "https://modelcontextprotocol.io"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/modelcontextprotocol/typescript-sdk/issues"
         }
       ],
       "hashes": [
@@ -196,28 +165,11 @@
       "scope": "required",
       "description": "Higher-level content negotiation",
       "purl": "pkg:npm/accepts@2.0.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/accepts"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/accepts/-/accepts-2.0.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/accepts.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/accepts#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/accepts/issues"
         }
       ],
       "hashes": [
@@ -243,12 +195,7 @@
       "author": "Evgeny Poberezkin",
       "description": "Format validation for Ajv v7+",
       "purl": "pkg:npm/ajv-formats@3.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/ajv-formats"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -289,28 +236,11 @@
       "scope": "required",
       "description": "Node.js body parsing middleware",
       "purl": "pkg:npm/body-parser@2.3.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/body-parser"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/body-parser/-/body-parser-2.3.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/expressjs/body-parser.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/expressjs/body-parser#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/expressjs/body-parser/issues"
         }
       ],
       "hashes": [
@@ -333,31 +263,14 @@
       "name": "content-type",
       "version": "2.1.0",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Create and parse HTTP Content-Type header",
       "purl": "pkg:npm/content-type@2.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/body-parser/node_modules/content-type"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/content-type/-/content-type-2.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/content-type.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/content-type#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/content-type/issues"
         }
       ],
       "hashes": [
@@ -380,31 +293,14 @@
       "name": "bytes",
       "version": "3.1.2",
       "scope": "required",
-      "author": "TJ Holowaychuk",
+      "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
       "description": "Utility to parse a string bytes to bytes and vice-versa",
       "purl": "pkg:npm/bytes@3.1.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/bytes"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/bytes/-/bytes-3.1.2.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/visionmedia/bytes.js.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/visionmedia/bytes.js#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/visionmedia/bytes.js/issues"
         }
       ],
       "hashes": [
@@ -427,15 +323,10 @@
       "name": "call-bound",
       "version": "1.0.4",
       "scope": "required",
-      "author": "Jordan Harband",
+      "author": "Jordan Harband <ljharb@gmail.com>",
       "description": "Robust call-bound JavaScript intrinsics, using `call-bind` and `get-intrinsic`.",
       "purl": "pkg:npm/call-bound@1.0.4",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/call-bound"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -474,31 +365,14 @@
       "name": "content-disposition",
       "version": "1.1.0",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Create and parse Content-Disposition header",
       "purl": "pkg:npm/content-disposition@1.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/content-disposition"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/content-disposition/-/content-disposition-1.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/content-disposition.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/content-disposition#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/content-disposition/issues"
         }
       ],
       "hashes": [
@@ -521,31 +395,14 @@
       "name": "content-type",
       "version": "1.0.5",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Create and parse HTTP Content-Type header",
       "purl": "pkg:npm/content-type@1.0.5",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/content-type"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/content-type/-/content-type-1.0.5.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/content-type.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/content-type#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/content-type/issues"
         }
       ],
       "hashes": [
@@ -568,31 +425,14 @@
       "name": "cookie",
       "version": "0.7.2",
       "scope": "required",
-      "author": "Roman Shtylman",
+      "author": "Roman Shtylman <shtylman@gmail.com>",
       "description": "HTTP server cookie parsing and serialization",
       "purl": "pkg:npm/cookie@0.7.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/cookie"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/cookie/-/cookie-0.7.2.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/cookie.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/cookie#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/cookie/issues"
         }
       ],
       "hashes": [
@@ -615,15 +455,10 @@
       "name": "cookie-signature",
       "version": "1.2.2",
       "scope": "required",
-      "author": "TJ Holowaychuk",
+      "author": "TJ Holowaychuk <tj@learnboost.com>",
       "description": "Sign and unsign cookies",
       "purl": "pkg:npm/cookie-signature@1.2.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/cookie-signature"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -631,15 +466,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/visionmedia/node-cookie-signature.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/visionmedia/node-cookie-signature#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/visionmedia/node-cookie-signature/issues"
+          "url": "https://github.com/visionmedia/node-cookie-signature.git"
         }
       ],
       "hashes": [
@@ -662,31 +489,14 @@
       "name": "cors",
       "version": "2.8.6",
       "scope": "required",
-      "author": "Troy Goode",
+      "author": "Troy Goode <troygoode@gmail.com> (https://github.com/troygoode/)",
       "description": "Node.js CORS middleware",
       "purl": "pkg:npm/cors@2.8.6",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/cors"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/cors/-/cors-2.8.6.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/expressjs/cors.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/expressjs/cors#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/expressjs/cors/issues"
         }
       ],
       "hashes": [
@@ -709,31 +519,14 @@
       "name": "depd",
       "version": "2.0.0",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Deprecate all the things",
       "purl": "pkg:npm/depd@2.0.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/depd"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/dougwilson/nodejs-depd.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/dougwilson/nodejs-depd#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/dougwilson/nodejs-depd/issues"
         }
       ],
       "hashes": [
@@ -756,15 +549,10 @@
       "name": "dexie",
       "version": "4.4.6",
       "scope": "required",
-      "author": "David Fahlander",
+      "author": "David Fahlander <https://github.com/dfahlander>",
       "description": "A Minimalistic Wrapper for IndexedDB",
       "purl": "pkg:npm/dexie@4.4.6",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/dexie"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -772,7 +560,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/dexie/Dexie.js.git"
+          "url": "https://github.com/dexie/Dexie.js.git"
         },
         {
           "type": "website",
@@ -806,28 +594,11 @@
       "author": "Jonathan Ong",
       "description": "return the first event in a set of ee/event pairs",
       "purl": "pkg:npm/ee-first@1.1.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/ee-first"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jonathanong/ee-first.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jonathanong/ee-first#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jonathanong/ee-first/issues"
         }
       ],
       "hashes": [
@@ -852,28 +623,11 @@
       "scope": "required",
       "description": "Encode a URL to a percent-encoded form, excluding already-encoded sequences",
       "purl": "pkg:npm/encodeurl@2.0.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/encodeurl"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/encodeurl/-/encodeurl-2.0.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/pillarjs/encodeurl.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/pillarjs/encodeurl#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/pillarjs/encodeurl/issues"
         }
       ],
       "hashes": [
@@ -898,28 +652,11 @@
       "scope": "required",
       "description": "Escape string for use in HTML",
       "purl": "pkg:npm/escape-html@1.0.3",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/escape-html"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/component/escape-html.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/component/escape-html#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/component/escape-html/issues"
         }
       ],
       "hashes": [
@@ -944,28 +681,11 @@
       "scope": "required",
       "description": "Create simple HTTP ETags",
       "purl": "pkg:npm/etag@1.8.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/etag"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/etag.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/etag#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/etag/issues"
         }
       ],
       "hashes": [
@@ -988,15 +708,10 @@
       "name": "eventsource",
       "version": "3.0.7",
       "scope": "required",
-      "author": "Espen Hovlandsdal",
+      "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
       "description": "WhatWG/W3C compliant EventSource client for Node.js and browsers",
       "purl": "pkg:npm/eventsource@3.0.7",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/eventsource"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1035,15 +750,10 @@
       "name": "eventsource-parser",
       "version": "3.1.1",
       "scope": "required",
-      "author": "Espen Hovlandsdal",
+      "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
       "description": "Streaming, source-agnostic EventSource/Server-Sent Events parser",
       "purl": "pkg:npm/eventsource-parser@3.1.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/eventsource-parser"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1082,31 +792,18 @@
       "name": "express",
       "version": "5.2.1",
       "scope": "required",
-      "author": "TJ Holowaychuk",
+      "author": "TJ Holowaychuk <tj@vision-media.ca>",
       "description": "Fast, unopinionated, minimalist web framework",
       "purl": "pkg:npm/express@5.2.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/express"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/express/-/express-5.2.1.tgz"
         },
         {
-          "type": "vcs",
-          "url": "git+https://github.com/expressjs/express.git"
-        },
-        {
           "type": "website",
           "url": "https://expressjs.com/"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/expressjs/express/issues"
         }
       ],
       "hashes": [
@@ -1132,12 +829,7 @@
       "author": "Nathan Friedly",
       "description": "Basic IP rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.",
       "purl": "pkg:npm/express-rate-limit@8.7.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/express-rate-limit"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1150,10 +842,6 @@
         {
           "type": "website",
           "url": "https://github.com/express-rate-limit/express-rate-limit"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/express-rate-limit/express-rate-limit/issues"
         }
       ],
       "hashes": [
@@ -1176,31 +864,14 @@
       "name": "finalhandler",
       "version": "2.1.1",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Node.js final http responder",
       "purl": "pkg:npm/finalhandler@2.1.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/finalhandler"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/finalhandler/-/finalhandler-2.1.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/pillarjs/finalhandler.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/pillarjs/finalhandler#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/pillarjs/finalhandler/issues"
         }
       ],
       "hashes": [
@@ -1225,28 +896,11 @@
       "scope": "required",
       "description": "Parse HTTP X-Forwarded-For header",
       "purl": "pkg:npm/forwarded@0.2.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/forwarded"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/forwarded/-/forwarded-0.2.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/forwarded.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/forwarded#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/forwarded/issues"
         }
       ],
       "hashes": [
@@ -1269,31 +923,14 @@
       "name": "fresh",
       "version": "2.0.0",
       "scope": "required",
-      "author": "TJ Holowaychuk",
+      "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
       "description": "HTTP response freshness testing",
       "purl": "pkg:npm/fresh@2.0.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/fresh"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/fresh/-/fresh-2.0.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/fresh.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/fresh#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/fresh/issues"
         }
       ],
       "hashes": [
@@ -1316,15 +953,10 @@
       "name": "hono",
       "version": "4.13.13",
       "scope": "required",
-      "author": "Yusuke Wada",
+      "author": "Yusuke Wada <yusuke@kamawada.com> (https://github.com/yusukebe)",
       "description": "Web framework built on Web Standards",
       "purl": "pkg:npm/hono@4.13.13",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/hono"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1337,10 +969,6 @@
         {
           "type": "website",
           "url": "https://hono.dev"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/honojs/hono/issues"
         }
       ],
       "hashes": [
@@ -1363,31 +991,14 @@
       "name": "http-errors",
       "version": "2.0.1",
       "scope": "required",
-      "author": "Jonathan Ong",
+      "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
       "description": "Create HTTP error objects",
       "purl": "pkg:npm/http-errors@2.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/http-errors"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/http-errors/-/http-errors-2.0.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/http-errors.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/http-errors#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/http-errors/issues"
         }
       ],
       "hashes": [
@@ -1410,15 +1021,10 @@
       "name": "iconv-lite",
       "version": "0.7.3",
       "scope": "required",
-      "author": "Alexander Shtuchkin",
+      "author": "Alexander Shtuchkin <ashtuchkin@gmail.com>",
       "description": "Convert character encodings in pure javascript.",
       "purl": "pkg:npm/iconv-lite@0.7.3",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/iconv-lite"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1426,15 +1032,11 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/pillarjs/iconv-lite.git"
+          "url": "https://github.com/pillarjs/iconv-lite.git"
         },
         {
           "type": "website",
           "url": "https://github.com/pillarjs/iconv-lite"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/pillarjs/iconv-lite/issues"
         }
       ],
       "hashes": [
@@ -1457,15 +1059,10 @@
       "name": "ip-address",
       "version": "10.7.3",
       "scope": "required",
-      "author": "Beau Gunderson",
+      "author": "Beau Gunderson <beau@beaugunderson.com> (https://beaugunderson.com/)",
       "description": "A library for parsing IPv4 and IPv6 IP addresses in node and the browser.",
       "purl": "pkg:npm/ip-address@10.7.3",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/ip-address"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1473,15 +1070,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/beaugunderson/ip-address.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/beaugunderson/ip-address#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/beaugunderson/ip-address/issues"
+          "url": "https://github.com/beaugunderson/ip-address.git"
         }
       ],
       "hashes": [
@@ -1504,31 +1093,14 @@
       "name": "ipaddr.js",
       "version": "1.9.1",
       "scope": "required",
-      "author": "whitequark",
+      "author": "whitequark <whitequark@whitequark.org>",
       "description": "A library for manipulating IPv4 and IPv6 addresses in JavaScript.",
       "purl": "pkg:npm/ipaddr.js@1.9.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/ipaddr.js"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-1.9.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git://github.com/whitequark/ipaddr.js.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/whitequark/ipaddr.js#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/whitequark/ipaddr.js/issues"
         }
       ],
       "hashes": [
@@ -1554,12 +1126,7 @@
       "author": "ForbesLindesay",
       "description": "Test whether an object looks like a promises-a+ promise",
       "purl": "pkg:npm/is-promise@4.0.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/is-promise"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1567,15 +1134,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/then/is-promise.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/then/is-promise#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/then/is-promise/issues"
+          "url": "https://github.com/then/is-promise.git"
         }
       ],
       "hashes": [
@@ -1598,31 +1157,18 @@
       "name": "jose",
       "version": "6.2.12",
       "scope": "required",
-      "author": "Filip Skokan",
+      "author": "Filip Skokan <panva.ip@gmail.com>",
       "description": "JWA, JWS, JWE, JWT, JWK, JWKS for Node.js, Browser, Cloudflare Workers, Deno, Bun, and other Web-interoperable runtimes",
       "purl": "pkg:npm/jose@6.2.12",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/jose"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/jose/-/jose-6.2.12.tgz"
         },
         {
-          "type": "vcs",
-          "url": "git+https://github.com/panva/jose.git"
-        },
-        {
           "type": "website",
           "url": "https://github.com/panva/jose"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/panva/jose/issues"
         }
       ],
       "hashes": [
@@ -1648,12 +1194,7 @@
       "author": "Remy Rylan",
       "description": "JSON Schema TypeScript definitions with complete inline documentation.",
       "purl": "pkg:npm/json-schema-typed@8.0.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/json-schema-typed"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1661,15 +1202,11 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/RemyRylan/json-schema-typed.git"
+          "url": "https://github.com/RemyRylan/json-schema-typed.git"
         },
         {
           "type": "website",
           "url": "https://github.com/RemyRylan/json-schema-typed/tree/main/dist/node"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/RemyRylan/json-schema-typed/issues"
         }
       ],
       "hashes": [
@@ -1695,12 +1232,7 @@
       "author": "Eric Fennis",
       "description": "A Lucide icon library package for React applications.",
       "purl": "pkg:npm/lucide-react@1.52.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/lucide-react"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -1708,15 +1240,11 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/lucide-icons/lucide.git"
+          "url": "https://github.com/lucide-icons/lucide.git"
         },
         {
           "type": "website",
           "url": "https://lucide.dev"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/lucide-icons/lucide/issues"
         }
       ],
       "hashes": [
@@ -1739,31 +1267,14 @@
       "name": "media-typer",
       "version": "1.1.1",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Simple RFC 6838 media type parser and formatter",
       "purl": "pkg:npm/media-typer@1.1.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/media-typer"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/media-typer/-/media-typer-1.1.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/media-typer.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/media-typer#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/media-typer/issues"
         }
       ],
       "hashes": [
@@ -1788,28 +1299,11 @@
       "scope": "required",
       "description": "Merge objects using their property descriptors",
       "purl": "pkg:npm/merge-descriptors@2.0.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/merge-descriptors"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-2.0.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/sindresorhus/merge-descriptors.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/sindresorhus/merge-descriptors#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/sindresorhus/merge-descriptors/issues"
         }
       ],
       "hashes": [
@@ -1834,28 +1328,11 @@
       "scope": "required",
       "description": "Media Type Database",
       "purl": "pkg:npm/mime-db@1.54.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/mime-db"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/mime-db/-/mime-db-1.54.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/mime-db.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/mime-db#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/mime-db/issues"
         }
       ],
       "hashes": [
@@ -1880,28 +1357,11 @@
       "scope": "required",
       "description": "The ultimate javascript content-type utility.",
       "purl": "pkg:npm/mime-types@3.0.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/mime-types"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/mime-types/-/mime-types-3.0.2.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/mime-types.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/mime-types#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/mime-types/issues"
         }
       ],
       "hashes": [
@@ -1926,81 +1386,17 @@
       "scope": "required",
       "description": "HTTP content negotiation",
       "purl": "pkg:npm/negotiator@1.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/negotiator"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/negotiator/-/negotiator-1.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/negotiator.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/negotiator#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/negotiator/issues"
         }
       ],
       "hashes": [
         {
           "alg": "SHA-512",
           "content": "34c3c144c2608901e36ddf29846dd579b771e246751f5db5adb97922432a78eb1a869b41f412a8fddee8277cd35ea4e06a09f66d694d497921d10506337d5162"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
-      "bom-ref": "content-type@2.1.0",
-      "type": "library",
-      "name": "content-type",
-      "version": "2.1.0",
-      "scope": "required",
-      "author": "Douglas Christopher Wilson",
-      "description": "Create and parse HTTP Content-Type header",
-      "purl": "pkg:npm/content-type@2.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/negotiator/node_modules/content-type"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/content-type/-/content-type-2.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/content-type.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/content-type#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/content-type/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "9a3ed43d71348daa9a3acba435945411f122d8070bec2fefc26c1c1d5d0ef7b78ed44d69c4166eca3959af1e6c79368d060d54ebea37e70a5adf941f71cfbb6a"
         }
       ],
       "licenses": [
@@ -2020,28 +1416,11 @@
       "author": "Sindre Sorhus",
       "description": "ES2015 `Object.assign()` ponyfill",
       "purl": "pkg:npm/object-assign@4.1.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/object-assign"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/sindresorhus/object-assign.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/sindresorhus/object-assign#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/sindresorhus/object-assign/issues"
         }
       ],
       "hashes": [
@@ -2067,12 +1446,7 @@
       "author": "James Halliday",
       "description": "string representations of objects in node and the browser",
       "purl": "pkg:npm/object-inspect@1.13.4",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/object-inspect"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2085,10 +1459,6 @@
         {
           "type": "website",
           "url": "https://github.com/inspect-js/object-inspect"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/inspect-js/object-inspect/issues"
         }
       ],
       "hashes": [
@@ -2113,28 +1483,11 @@
       "scope": "required",
       "description": "Execute a callback when a request closes, finishes, or errors",
       "purl": "pkg:npm/on-finished@2.4.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/on-finished"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/on-finished.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/on-finished#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/on-finished/issues"
         }
       ],
       "hashes": [
@@ -2159,28 +1512,11 @@
       "scope": "required",
       "description": "parse a url with memoization",
       "purl": "pkg:npm/parseurl@1.3.3",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/parseurl"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/pillarjs/parseurl.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/pillarjs/parseurl#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/pillarjs/parseurl/issues"
         }
       ],
       "hashes": [
@@ -2205,12 +1541,7 @@
       "scope": "required",
       "description": "Express style path to RegExp utility",
       "purl": "pkg:npm/path-to-regexp@8.4.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/path-to-regexp"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2218,15 +1549,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/pillarjs/path-to-regexp.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/pillarjs/path-to-regexp#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/pillarjs/path-to-regexp/issues"
+          "url": "https://github.com/pillarjs/path-to-regexp.git"
         }
       ],
       "hashes": [
@@ -2252,12 +1575,7 @@
       "author": "crouchcd",
       "description": "Generate or verify a Proof Key for Code Exchange (PKCE) challenge pair",
       "purl": "pkg:npm/pkce-challenge@5.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/pkce-challenge"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2296,31 +1614,14 @@
       "name": "proxy-addr",
       "version": "2.0.8",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Determine address of proxied request",
       "purl": "pkg:npm/proxy-addr@2.0.8",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/proxy-addr"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/proxy-addr/-/proxy-addr-2.0.8.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/proxy-addr.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/proxy-addr#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/proxy-addr/issues"
         }
       ],
       "hashes": [
@@ -2345,12 +1646,7 @@
       "scope": "required",
       "description": "A querystring parser that supports nesting and arrays, with a depth limit",
       "purl": "pkg:npm/qs@6.16.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/qs"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2358,15 +1654,11 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/ljharb/qs.git"
+          "url": "https://github.com/ljharb/qs.git"
         },
         {
           "type": "website",
           "url": "https://github.com/ljharb/qs"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/ljharb/qs/issues"
         }
       ],
       "hashes": [
@@ -2389,31 +1681,14 @@
       "name": "range-parser",
       "version": "1.3.0",
       "scope": "required",
-      "author": "TJ Holowaychuk",
+      "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
       "description": "Range header field string parser",
       "purl": "pkg:npm/range-parser@1.3.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/range-parser"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/range-parser/-/range-parser-1.3.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/range-parser.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/range-parser#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/range-parser/issues"
         }
       ],
       "hashes": [
@@ -2436,31 +1711,14 @@
       "name": "raw-body",
       "version": "3.0.2",
       "scope": "required",
-      "author": "Jonathan Ong",
+      "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
       "description": "Get and validate the raw body of a readable stream.",
       "purl": "pkg:npm/raw-body@3.0.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/raw-body"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/raw-body/-/raw-body-3.0.2.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/stream-utils/raw-body.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/stream-utils/raw-body#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/stream-utils/raw-body/issues"
         }
       ],
       "hashes": [
@@ -2485,12 +1743,7 @@
       "scope": "required",
       "description": "React is a JavaScript library for building user interfaces.",
       "purl": "pkg:npm/react@19.3.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/react"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2498,15 +1751,11 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/react/react.git"
+          "url": "https://github.com/react/react.git"
         },
         {
           "type": "website",
           "url": "https://react.dev/"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/react/react/issues"
         }
       ],
       "hashes": [
@@ -2531,12 +1780,7 @@
       "scope": "required",
       "description": "React package for working with the DOM.",
       "purl": "pkg:npm/react-dom@19.3.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/react-dom"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2544,7 +1788,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/react/react.git"
+          "url": "https://github.com/react/react.git"
         },
         {
           "type": "website",
@@ -2575,31 +1819,14 @@
       "name": "router",
       "version": "2.2.0",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Simple middleware-style router",
       "purl": "pkg:npm/router@2.2.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/router"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/router/-/router-2.2.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/pillarjs/router.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/pillarjs/router#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/pillarjs/router/issues"
         }
       ],
       "hashes": [
@@ -2625,12 +1852,7 @@
       "author": "Nikita Skovoroda",
       "description": "Modern Buffer API polyfill without footguns",
       "purl": "pkg:npm/safer-buffer@2.1.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/safer-buffer"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2639,10 +1861,6 @@
         {
           "type": "vcs",
           "url": "git+https://github.com/ChALkeR/safer-buffer.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/ChALkeR/safer-buffer#readme"
         },
         {
           "type": "issue-tracker",
@@ -2671,12 +1889,7 @@
       "scope": "required",
       "description": "Cooperative scheduler for the browser environment.",
       "purl": "pkg:npm/scheduler@0.28.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/scheduler"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2684,7 +1897,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/react/react.git"
+          "url": "https://github.com/react/react.git"
         },
         {
           "type": "website",
@@ -2715,31 +1928,14 @@
       "name": "send",
       "version": "1.2.1",
       "scope": "required",
-      "author": "TJ Holowaychuk",
+      "author": "TJ Holowaychuk <tj@vision-media.ca>",
       "description": "Better streaming static file server with Range and conditional-GET support",
       "purl": "pkg:npm/send@1.2.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/send"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/send/-/send-1.2.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/pillarjs/send.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/pillarjs/send#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/pillarjs/send/issues"
         }
       ],
       "hashes": [
@@ -2762,31 +1958,14 @@
       "name": "serve-static",
       "version": "2.2.1",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Serve static files",
       "purl": "pkg:npm/serve-static@2.2.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/serve-static"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/serve-static/-/serve-static-2.2.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/expressjs/serve-static.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/expressjs/serve-static#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/expressjs/serve-static/issues"
         }
       ],
       "hashes": [
@@ -2812,12 +1991,7 @@
       "author": "Wes Todd",
       "description": "A small polyfill for Object.setprototypeof",
       "purl": "pkg:npm/setprototypeof@1.2.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/setprototypeof"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2825,7 +1999,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/wesleytodd/setprototypeof.git"
+          "url": "https://github.com/wesleytodd/setprototypeof.git"
         },
         {
           "type": "website",
@@ -2856,15 +2030,10 @@
       "name": "side-channel",
       "version": "1.1.1",
       "scope": "required",
-      "author": "Jordan Harband",
+      "author": "Jordan Harband <ljharb@gmail.com>",
       "description": "Store information about any JS value in a side channel. Uses WeakMap if available.",
       "purl": "pkg:npm/side-channel@1.1.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/side-channel"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2903,15 +2072,10 @@
       "name": "side-channel-list",
       "version": "1.0.1",
       "scope": "required",
-      "author": "Jordan Harband",
+      "author": "Jordan Harband <ljharb@gmail.com>",
       "description": "Store information about any JS value in a side channel, using a linked list",
       "purl": "pkg:npm/side-channel-list@1.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/side-channel-list"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2950,15 +2114,10 @@
       "name": "side-channel-map",
       "version": "1.0.1",
       "scope": "required",
-      "author": "Jordan Harband",
+      "author": "Jordan Harband <ljharb@gmail.com>",
       "description": "Store information about any JS value in a side channel, using a Map",
       "purl": "pkg:npm/side-channel-map@1.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/side-channel-map"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -2997,15 +2156,10 @@
       "name": "side-channel-weakmap",
       "version": "1.0.2",
       "scope": "required",
-      "author": "Jordan Harband",
+      "author": "Jordan Harband <ljharb@gmail.com>",
       "description": "Store information about any JS value in a side channel. Uses WeakMap if available.",
       "purl": "pkg:npm/side-channel-weakmap@1.0.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/side-channel-weakmap"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -3046,28 +2200,11 @@
       "scope": "required",
       "description": "HTTP status utility",
       "purl": "pkg:npm/statuses@2.0.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/statuses"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/statuses/-/statuses-2.0.2.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/statuses.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/statuses#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/statuses/issues"
         }
       ],
       "hashes": [
@@ -3090,31 +2227,14 @@
       "name": "toidentifier",
       "version": "1.0.1",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Convert a string of words to a JavaScript identifier",
       "purl": "pkg:npm/toidentifier@1.0.1",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/toidentifier"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/component/toidentifier.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/component/toidentifier#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/component/toidentifier/issues"
         }
       ],
       "hashes": [
@@ -3139,28 +2259,11 @@
       "scope": "required",
       "description": "Infer the content-type of a request.",
       "purl": "pkg:npm/type-is@2.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/type-is"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/type-is/-/type-is-2.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/type-is.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/type-is#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/type-is/issues"
         }
       ],
       "hashes": [
@@ -3178,83 +2281,19 @@
       ]
     },
     {
-      "bom-ref": "content-type@2.1.0",
-      "type": "library",
-      "name": "content-type",
-      "version": "2.1.0",
-      "scope": "required",
-      "author": "Douglas Christopher Wilson",
-      "description": "Create and parse HTTP Content-Type header",
-      "purl": "pkg:npm/content-type@2.1.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/type-is/node_modules/content-type"
-        }
-      ],
-      "externalReferences": [
-        {
-          "type": "distribution",
-          "url": "https://registry.npmjs.org/content-type/-/content-type-2.1.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/content-type.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/content-type#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/content-type/issues"
-        }
-      ],
-      "hashes": [
-        {
-          "alg": "SHA-512",
-          "content": "9a3ed43d71348daa9a3acba435945411f122d8070bec2fefc26c1c1d5d0ef7b78ed44d69c4166eca3959af1e6c79368d060d54ebea37e70a5adf941f71cfbb6a"
-        }
-      ],
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ]
-    },
-    {
       "bom-ref": "unpipe@1.0.0",
       "type": "library",
       "name": "unpipe",
       "version": "1.0.0",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Unpipe a stream from all destinations",
       "purl": "pkg:npm/unpipe@1.0.0",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/unpipe"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/stream-utils/unpipe.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/stream-utils/unpipe#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/stream-utils/unpipe/issues"
         }
       ],
       "hashes": [
@@ -3277,31 +2316,14 @@
       "name": "vary",
       "version": "1.1.2",
       "scope": "required",
-      "author": "Douglas Christopher Wilson",
+      "author": "Douglas Christopher Wilson <doug@somethingdoug.com>",
       "description": "Manipulate the HTTP Vary header",
       "purl": "pkg:npm/vary@1.1.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/vary"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
           "url": "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
-        },
-        {
-          "type": "vcs",
-          "url": "git+https://github.com/jshttp/vary.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/jshttp/vary#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/jshttp/vary/issues"
         }
       ],
       "hashes": [
@@ -3324,15 +2346,10 @@
       "name": "zod",
       "version": "4.6.5",
       "scope": "required",
-      "author": "Colin McDonnell",
+      "author": "Colin McDonnell <zod@colinhacks.com>",
       "description": "TypeScript-first schema declaration and validation library with static type inference",
       "purl": "pkg:npm/zod@4.6.5",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/zod"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -3374,12 +2391,7 @@
       "author": "Stefan Terdell",
       "description": "Converts Zod schemas to Json Schemas",
       "purl": "pkg:npm/zod-to-json-schema@3.25.2",
-      "properties": [
-        {
-          "name": "cdx:npm:package:path",
-          "value": "node_modules/zod-to-json-schema"
-        }
-      ],
+      "properties": [],
       "externalReferences": [
         {
           "type": "distribution",
@@ -3387,15 +2399,7 @@
         },
         {
           "type": "vcs",
-          "url": "git+https://github.com/StefanTerdell/zod-to-json-schema.git"
-        },
-        {
-          "type": "website",
-          "url": "https://github.com/StefanTerdell/zod-to-json-schema#readme"
-        },
-        {
-          "type": "issue-tracker",
-          "url": "https://github.com/StefanTerdell/zod-to-json-schema/issues"
+          "url": "https://github.com/StefanTerdell/zod-to-json-schema"
         }
       ],
       "hashes": [
@@ -3415,7 +2419,7 @@
   ],
   "dependencies": [
     {
-      "ref": "zettel@0.1.0-alpha.2",
+      "ref": "zettel@0.1.0-alpha.3",
       "dependsOn": [
         "@fontsource-variable/inter@5.3.0",
         "@modelcontextprotocol/sdk@1.32.1",
@@ -3675,10 +2679,6 @@
       ]
     },
     {
-      "ref": "content-type@2.1.0",
-      "dependsOn": []
-    },
-    {
       "ref": "object-assign@4.1.1",
       "dependsOn": []
     },
@@ -3830,10 +2830,6 @@
         "media-typer@1.1.1",
         "mime-types@3.0.2"
       ]
-    },
-    {
-      "ref": "content-type@2.1.0",
-      "dependsOn": []
     },
     {
       "ref": "unpipe@1.0.0",

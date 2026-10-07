@@ -1,0 +1,76 @@
+{
+  "verifiedAt": "2026-10-07T21:00:40.494710+00:00",
+  "verification": "All nine remote asset sizes and server SHA-256 digests equal the local upload files. Draft state and exact source target checked.",
+  "release": {
+    "databaseId": 406155173,
+    "isDraft": true,
+    "isPrerelease": true,
+    "targetCommitish": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+    "url": "https://github.com/microyee-ai/zettel/releases/tag/untagged-3f1117c7a28602f5d313"
+  },
+  "assets": [
+    {
+      "name": "artifact-manifest.json",
+      "size": 1878,
+      "digest": "sha256:92fa623236ac82b94d77f6438677cbad2ecd90a7c0a47952ee41152c26edda9b",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619798490"
+    },
+    {
+      "name": "desktop-evidence.zip",
+      "size": 1257902,
+      "digest": "sha256:798b081b91e8205a75dbac6f2936ce0e022cdf18cc2d3ef6fbec4e0ac1343c94",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619804669"
+    },
+    {
+      "name": "SHA256SUMS",
+      "size": 753,
+      "digest": "sha256:03c6d5b90482924a2a8c0f6b0513b738a1a3ab08a3279b19864831178c7ef596",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619804667"
+    },
+    {
+      "name": "Zettel-0.1.0-alpha.3-arm64-mac.zip",
+      "size": 127187922,
+      "digest": "sha256:c271d816a0f4425c6d7c862c781f636b276ead2a5992fe350cc7f78327cce679",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619789223"
+    },
+    {
+      "name": "Zettel-0.1.0-alpha.3-arm64.dmg",
+      "size": 127155199,
+      "digest": "sha256:e47a80da3a2cedbede12cc92e51c4cbb8d4a1a9b5e6d0431d623e736230a985f",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619789231"
+    },
+    {
+      "name": "Zettel-0.1.0-alpha.3-mac.zip",
+      "size": 134113515,
+      "digest": "sha256:aade1b1e0ee35ed565514a71c28e6dbe484b587ab8d559159375ba2ce8f97c0f",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619789226"
+    },
+    {
+      "name": "Zettel-0.1.0-alpha.3.AppImage",
+      "size": 125670818,
+      "digest": "sha256:d16b78d2961994dc633f77b8f1edfe4cb177e69fce80b915a5d4f00886255a11",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619791686"
+    },
+    {
+      "name": "Zettel-0.1.0-alpha.3.dmg",
+      "size": 134036350,
+      "digest": "sha256:4857808c5bb5eb4d441ae8c7b10c424839bf3d851a2f0faaa4e4da8191d530f2",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619789230"
+    },
+    {
+      "name": "Zettel.Setup.0.1.0-alpha.3.exe",
+      "size": 111865082,
+      "digest": "sha256:6ac0f2f8b71a675722b0ccab73694c4e50f8f1166cd83c582ef819697d44db4a",
+      "state": "uploaded",
+      "apiUrl": "https://api.github.com/repos/microyee-ai/zettel/releases/assets/619789227"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "product": "Zettel",
+  "version": "0.1.0-alpha.3",
+  "status": "passed",
+  "startedAt": "2026-10-07T20:41:11.882Z",
+  "artifact": {
+    "name": "Zettel-0.1.0-alpha.3-arm64-mac.zip",
+    "bytes": 128430831,
+    "sha256": "fef9896d4f7f64befeb57d05df93a1c435c01d3cc84a0d3452d4258f02189586"
+  },
+  "source": {
+    "commit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+    "trackedTreeDirty": true,
+    "trackedDiffSha256": "7bd7a76e9f206f1cef936d59adafd82b345dd8bac37b7877024d1dc2efdc2b4c",
+    "workflowRunUrl": "https://github.com/microyee-ai/zettel/actions/runs/37683698462"
+  },
+  "host": {
+    "platform": "macos",
+    "architecture": "arm64",
+    "osRelease": "24.6.0",
+    "node": "v24.20.0",
+    "githubActions": true,
+    "runnerImage": "macos15"
+  },
+  "installation": {
+    "status": "passed",
+    "method": "Actual ZIP extracted with ditto",
+    "signatureIntegrity": "passed",
+    "signingDetails": "Executable=/private/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/zettel-candidate-4W8nxT/installed/Zettel.app/Contents/MacOS/Zettel\nIdentifier=haus.zinnober.zettel\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20500 size=629 flags=0x10002(adhoc,runtime) hashes=9+7 location=embedded\nSignature=adhoc\nInfo.plist entries=32\nTeamIdentifier=not set\nRuntime Version=26.5.0\nSealed Resources version=2 rules=13 files=15\nInternal requirements count=0 size=12"
+  },
+  "smoke": {
+    "schemaVersion": 1,
+    "status": "passed",
+    "startedAt": "2026-10-07T20:41:14.385Z",
+    "executable": "/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/zettel-candidate-4W8nxT/installed/Zettel.app/Contents/MacOS/Zettel",
+    "packaged": true,
+    "platform": "darwin",
+    "architecture": "arm64",
+    "checks": {
+      "embeddedBuildProvenance": true,
+      "runtimeMatchesRequestedMode": true,
+      "rendererIsolation": true,
+      "narrowPreload": true,
+      "sandboxDisablingFlagsAbsent": true,
+      "uiCreate": true,
+      "blockedNavigationAndPopup": true,
+      "secondLaunchUsesExistingWorkspace": true,
+      "windowlessAppReopensOnSecondLaunch": true,
+      "gracefulQuit": true,
+      "persistedAfterRestart": true,
+      "bundledMcpSharedStorage": true,
+      "documentationNativeHandoff": true,
+      "nativeExport": true,
+      "exportExcludesServiceToken": true,
+      "guiResetRestore": true,
+      "restoredDataSurvivesRestart": true,
+      "renderedWorkspaceScreenshot": true,
+      "disposableDataCleaned": true
+    },
+    "runtime": {
+      "version": "0.1.0-alpha.3",
+      "packaged": true,
+      "architecture": "arm64",
+      "electron": "44.5.1",
+      "node": "24.21.0",
+      "resourcesPath": "/private/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/zettel-candidate-4W8nxT/installed/Zettel.app/Contents/Resources",
+      "buildInfo": {
+        "version": "0.1.0-alpha.3",
+        "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+        "sourceDirty": false
+      },
+      "sandboxDisablingFlags": [],
+      "preferences": {
+        "sandbox": true,
+        "contextIsolation": true,
+        "nodeIntegration": false,
+        "webSecurity": true
+      }
+    },
+    "completedAt": "2026-10-07T20:41:29.023Z"
+  },
+  "cleanup": {
+    "status": "passed"
+  },
+  "unverified": [
+    "Manual clean-host installation and native file dialogs",
+    "Publisher identity, notarization and OS trust prompts",
+    "Upgrade from an earlier supported version",
+    "Automatic updates",
+    "External AI provider"
+  ],
+  "buildProvenance": {
+    "version": "0.1.0-alpha.3",
+    "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+    "sourceDirty": false
+  },
+  "screenshot": {
+    "path": "verification/Zettel-0.1.0-alpha.3-arm64-mac.zip.png",
+    "sha256": "880d94401cba1e5bc58a800414538067577a9b05c0ca205af8645be0cac9bd18"
+  },
+  "completedAt": "2026-10-07T20:41:29.146Z"
+}

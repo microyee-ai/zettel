@@ -1,5 +1,7 @@
 # Zettel market evidence
 
+**Correction, 2026-10-07:** The Graphite entry below identifies an unrelated company. The user meant Microyee's Graphite. Retain this dated record as history; use the [corrected comparison](2026-10-07-desktop-market.md) for decisions.
+
 Researcher: product_researcher. Accessed: **2026-10-05**. Scope: primary-source desk research for the coordinator; no competitor application was exercised. An observation below means a vendor document was inspected, not that its behavior was independently tested. Undated pages carry an access date rather than an invented publication date. Recommendations are in [market strategy](../market-strategy.md); product scenarios are in the [capability ledger](capability-ledger.md).
 
 ## What do current competitors establish?

@@ -4,6 +4,18 @@ Baseline version: **2026-10-05**. Sources reviewed on that date. This is a requi
 
 Default state for every row: **researched**. Implementation evidence: **not assessed by the researcher**. Concrete issue owner: **unassigned; coordinator must assign on issue creation**. Verification owner: **verifier**, with security_reviewer for trust-boundary rows. No row may become **verified** without an issue URL, tested revision/artifact, scenario result and evidence link. Later/deferred rows remain required scope. This is a family-complete starting ledger, not an exhaustive claim that every current competitor interaction has been catalogued.
 
+## October 7 scoped implementation overlay
+
+The default research state below remains for unassessed families. This overlay assigns the desktop work without declaring entire families complete. Source and artifact digests are in the [alpha.3 evidence record](../releases/0.1.0-alpha.3.md).
+
+| Rows | Current scope/status | Owner / issue | Evidence and remaining work |
+| --- | --- | --- | --- |
+| CLIENT-02, OPS-03 | Implementing; automated candidate installation/runtime scenarios verified on four runner targets | Installer implementer; coordinator; [#12](https://github.com/microyee-ai/zettel/issues/12); independent security reviewer | Six CI distributions plus local Mac DMG/ZIP, clean-source provenance, checksums, notices/SBOM and real sandbox-enabled workflow checks. Signing, manual trust prompts, public alpha.3 release and automatic updates remain open. |
+| OPS-02 | Implementing; Mac alpha.2 replacement and fresh-directory restore verified | Independent verifier; [#12](https://github.com/microyee-ai/zettel/issues/12) | Rich full-workspace comparison and two real restart sequences. Other-platform upgrades, hosted backup operations and future schema migrations remain separate gates. |
+| BRAND-01, BIZ-01, BIZ-02 | Research refreshed; source landing presents free preview | Product researcher and coordinator; [PR #13](https://github.com/microyee-ai/zettel/pull/13) | Corrected Microyee comparables, economics, audience, message/channel experiments and 90-day discovery plan. Public alpha.3/site deployment, customer demand, paid entitlement/checkout and managed services are not established. |
+
+## Full requirements ledger
+
 | ID / kind | Capability and required envelope | Acceptance scenario | Source / basis |
 | --- | --- | --- | --- |
 | WORK-01 R | Workspaces, teams/subteams, membership, roles, guests and separate personal context | A member sees allowed teams; removal revokes API, search, document-embed and attachment access | [Baseline work model](../product-research.md#full-parity-ledger-to-create-in-the-product-repository) |
@@ -23,7 +35,7 @@ Default state for every row: **researched**. Implementation evidence: **not asse
 | VIEW-02 R | Dashboards, delivery metrics, reports and health trends | Known fixtures yield defined cycle-time/throughput/scope metrics; exports match visible authorized data | [Baseline analytics](../product-research.md#full-parity-ledger-to-create-in-the-product-repository) |
 | INTAKE-01 R | Customer requests/context, forms, email and chat intake | Replay an intake event; exactly one linked request/ticket is created; customer context obeys access and retention | [Baseline customer workflows](../product-research.md#full-parity-ledger-to-create-in-the-product-repository) |
 | INTEGRATE-01 R | Public API, signed webhooks, retries, deduplication and integration governance | A transient receiver failure retries safely; invalid signatures fail; revoking integration credentials prevents further writes | [Baseline integrations](../product-research.md#full-parity-ledger-to-create-in-the-product-repository) |
-| INTEGRATE-02 R | GitHub/GitLab/code-review links and controlled status sync | Link a PR to a ticket; observe configured transition; repeated/out-of-order webhook delivery does not corrupt state | [Baseline](../product-research.md), [Graphite workflow reference](https://graphite.com/pricing) |
+| INTEGRATE-02 R | GitHub/GitLab/code-review links and controlled status sync | Link a PR to a ticket; observe configured transition; repeated/out-of-order webhook delivery does not corrupt state | [Baseline](../product-research.md); the user's Microyee Graphite comparison is corrected in [desktop research](2026-10-07-desktop-market.md) |
 | DATA-01 R | Importers, stable external origin IDs, attachments and complete export | Reimport the same source without duplicates; reconcile unsupported fields; restore an exported workspace on a clean instance | [Baseline installation and integrations](../product-research.md) |
 | CLIENT-01 R | Responsive fast web app with accessible navigation and honest persistence state | A new user completes a planning-to-delivery flow; reload/errors preserve committed work; keyboard/screen-reader paths succeed | [User request and strategy](../market-strategy.md) |
 | CLIENT-02 R | Installable desktop artifacts, durable local data and recovery | Download/install on each claimed OS; create work offline; terminate/restart; reopen the same data; recover from a backup | [Grist local-client reference](https://support.getgrist.com/self-managed/), [user request](../market-strategy.md) |

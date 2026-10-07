@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "product": "Zettel",
+  "version": "0.1.0-alpha.3",
+  "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+  "trackedTreeDirty": true,
+  "runUrl": "https://github.com/microyee-ai/zettel/actions/runs/37683698462",
+  "platform": "macos",
+  "architecture": "x64",
+  "nodeVersion": "v24.19.0",
+  "electronVersion": "44.5.1",
+  "publisherSigning": "Not configured; developer build candidate",
+  "publishedRelease": false,
+  "installVerification": {
+    "status": "passed",
+    "scope": "Automated extraction/install and packaged-app checks only; see per-artifact evidence and unverified gates",
+    "artifacts": [
+      {
+        "artifact": "Zettel-0.1.0-alpha.3-mac.zip",
+        "artifactSha256": "aade1b1e0ee35ed565514a71c28e6dbe484b587ab8d559159375ba2ce8f97c0f",
+        "status": "passed",
+        "evidence": "verification/Zettel-0.1.0-alpha.3-mac.zip.json",
+        "evidenceSha256": "5ded8b86c045584b9fda868a17e1c610e2523cc7218ac2277801f62eb04f3165",
+        "buildProvenance": {
+          "version": "0.1.0-alpha.3",
+          "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+          "sourceDirty": false
+        }
+      },
+      {
+        "artifact": "Zettel-0.1.0-alpha.3.dmg",
+        "artifactSha256": "4857808c5bb5eb4d441ae8c7b10c424839bf3d851a2f0faaa4e4da8191d530f2",
+        "status": "passed",
+        "evidence": "verification/Zettel-0.1.0-alpha.3.dmg.json",
+        "evidenceSha256": "2a2a3b2fd4aa9fdd1bf10a2386f4269d0f5602da6663d66950f9d76ceb0098b5",
+        "buildProvenance": {
+          "version": "0.1.0-alpha.3",
+          "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+          "sourceDirty": false
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "Zettel-0.1.0-alpha.3-mac.zip",
+      "bytes": 134113515,
+      "sha256": "aade1b1e0ee35ed565514a71c28e6dbe484b587ab8d559159375ba2ce8f97c0f"
+    },
+    {
+      "name": "Zettel-0.1.0-alpha.3.dmg",
+      "bytes": 134036350,
+      "sha256": "4857808c5bb5eb4d441ae8c7b10c424839bf3d851a2f0faaa4e4da8191d530f2"
+    },
+    {
+      "name": "THIRD_PARTY_NOTICES.txt",
+      "bytes": 153861,
+      "sha256": "fe6cbeee3a7fe241f6ce25d8a6859f00913403ad734f54742392ab48b7e91461"
+    },
+    {
+      "name": "sbom.cdx.json",
+      "bytes": 77009,
+      "sha256": "48c5b7ef90226007b25a50fcbbe2ac591fd06c9abcc516aae224a1db170d03f5"
+    }
+  ]
+}

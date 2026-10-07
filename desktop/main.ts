@@ -1,10 +1,11 @@
-import { app, BrowserWindow, dialog, ipcMain, type IpcMainInvokeEvent } from 'electron';
-import { mkdirSync, writeFileSync, chmodSync, unlinkSync } from 'node:fs';
+import { app, BrowserWindow, dialog, ipcMain, shell, type IpcMainInvokeEvent } from 'electron';
+import { mkdirSync, writeFileSync, chmodSync, rmSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { resolve } from 'node:path';
 import { WorkspaceStore } from '../server/storage.js';
 import { startLocalService } from '../server/http.js';
 import { aiConfigFromEnv, proposeIssues } from '../server/ai.js';
+import { trustedDocumentationUrl } from './navigation.js';
 
 app.setName('Zettel');
 const singleInstance = app.requestSingleInstanceLock();
@@ -38,15 +39,32 @@ async function start() {
     });
     window.webContents.session.setPermissionRequestHandler((_webContents, _permission, callback) => callback(false));
     window.webContents.session.setPermissionCheckHandler(() => false);
-    window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
-    window.webContents.on('will-navigate', (event, url) => { if (!url.startsWith(`${service!.origin}/`)) event.preventDefault(); });
+    window.webContents.setWindowOpenHandler(({ url }) => {
+      const documentation = trustedDocumentationUrl(url);
+      if (documentation) void shell.openExternal(documentation).catch(() => {
+        dialog.showErrorBox('Could not open the setup guide', 'Open the local runtime guide from the Zettel repository in your browser.');
+      });
+      return { action: 'deny' };
+    });
+    const isWorkspaceUrl = (url: string) => {
+      try { return new URL(url).origin === service!.origin; } catch { return false; }
+    };
+    window.webContents.on('will-frame-navigate', event => { if (!event.isMainFrame || !isWorkspaceUrl(event.url)) event.preventDefault(); });
+    window.webContents.on('will-redirect', event => { if (!event.isMainFrame || !isWorkspaceUrl(event.url)) event.preventDefault(); });
     window.webContents.on('will-attach-webview', event => event.preventDefault());
-    void window.loadURL(`${service!.origin}/app`);
+    void window.loadURL(`${service!.origin}/app`).catch(() => {
+      if (!quitting) { dialog.showErrorBox('Zettel could not open its workspace', 'The local interface failed to load. Quit and reopen Zettel. Your saved workspace has not been replaced.'); app.quit(); }
+    });
     window.on('closed', () => { window = undefined; });
   };
   createWindow();
   app.on('activate', () => { if (!window) createWindow(); });
-  app.on('second-instance', () => { if (window) { if (window.isMinimized()) window.restore(); window.focus(); } });
+  app.on('second-instance', () => {
+    if (quitting) return;
+    if (!window) createWindow();
+    if (window!.isMinimized()) window!.restore();
+    window!.show(); window!.focus();
+  });
 }
 
 if (singleInstance) {
@@ -57,7 +75,11 @@ app.on('before-quit', event => {
   if (quitting) return;
   quitting = true; event.preventDefault();
   void (async () => {
-    try { await service?.close(); store?.close(); if (connectionPath) unlinkSync(connectionPath); }
-    finally { app.quit(); }
+    try { await service?.close(); }
+    catch { /* Still release storage and the discovery file on shutdown. */ }
+    finally {
+      try { store?.close(); }
+      finally { try { if (connectionPath) rmSync(connectionPath, { force: true }); } finally { app.quit(); } }
+    }
   })();
 });

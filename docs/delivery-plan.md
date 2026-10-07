@@ -1,5 +1,18 @@
 # Zettel delivery plan
 
+## Desktop delivery team — October 7, 2026
+
+The coordinator continued from the committed alpha.2 implementation in an isolated `anemone` worktree. Uncommitted work in the other Zettel checkout and sibling product repositories was left untouched. Work is scoped to the desktop outcome and [issue #12](https://github.com/microyee-ai/zettel/issues/12); the broader product milestones remain below.
+
+| Workstream | Assigned role and ownership | Reviewable output / gate |
+| --- | --- | --- |
+| Installer delivery | implementer: candidate workflow, artifact verification scripts, desktop smoke and installer guide | Actual DMG/ZIP, NSIS and AppImage bytes; per-platform install/runtime evidence tied to artifact digests |
+| Desktop security and reliability | independent security_reviewer: read-only runtime audit; coordinator owns fixes and regression tests | [Review](research/2026-10-07-desktop-review.md), SQLite privacy/schema refusal, bounded shutdown, IPC denial, single-instance relaunch and sandbox evidence |
+| Pricing and market entry | product_researcher: refreshed primary evidence and launch experiments | [Research](research/2026-10-07-desktop-market.md), [launch playbook](launch-playbook.md); no invented interviews or live paid offer |
+| Integration and release | coordinator: ADR, packaging configuration, source provenance, README, checks, release handoff | [ADR 0003](decisions/0003-desktop-installers.md), [installer guide](desktop-installers.md), clean-source candidate checks and remaining signing gates |
+
+This is an active agent delivery team with bounded file ownership, not a claim that employees, customer support, or a commercial service have been staffed. The maintainer remains accountable for publishing, paid terms and credential custody. No customer outreach is performed by these tasks.
+
 Date: 2026-10-05. Implementation coordination: [GitHub issue #9](https://github.com/microyee-ai/zettel/issues/9). Local IDs below are scoped work items, not assertions that corresponding external issues have been created. The coordinator owns integration; specialist roles own bounded paths. No milestone dates are promised before independent verification.
 
 The first deliverable is a usable branded local work app, reachable on the web and downloadable as a desktop preview. The original full enterprise and programmable-workspace ambition in [the product brief](product-research.md) and the [capability ledger](research/capability-ledger.md) remains visible scope. Completing the first milestone does not establish full product completion.

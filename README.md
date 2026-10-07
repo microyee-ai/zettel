@@ -2,7 +2,7 @@
 
 **A sharper way to move work forward.** A local-first workspace for tickets, projects, and the next thing you want to ship.
 
-**Status: early runnable preview, `0.1.0-alpha.2`.** The repository now contains a React web application, a SQLite localhost service, an Electron desktop build, and an MCP bridge. Installation, browser behavior, deployment, and platform release gates are tracked separately in the [preview release record](docs/release-preview.md) and [verification record](docs/verification.md). This is not an enterprise-ready release or a full Linear/Coda alternative.
+**Status: early runnable preview; this branch contains verified `0.1.0-alpha.3` installer candidates.** The published preview remains `0.1.0-alpha.2`. The repository contains a React web application, a SQLite localhost service, an Electron desktop build, and an MCP bridge. See the [alpha.3 installer evidence and remaining gates](docs/releases/0.1.0-alpha.3.md), [published preview record](docs/release-preview.md), [installer guide](docs/desktop-installers.md), and [verification record](docs/verification.md). This is not an enterprise-ready release or a full Linear/Coda alternative.
 
 ## What the preview contains
 
@@ -49,14 +49,14 @@ npm run desktop
 
 This builds the web app and desktop runtime, then launches Electron. Source development requires Node and npm; a successfully packaged GUI includes its own runtime. Desktop and the standalone service share the default SQLite location on this computer. Export before experimenting with another build or data directory.
 
-The current convenience packaging command targets **macOS Apple silicon**:
+The convenience packaging command produces a **macOS Apple silicon DMG and ZIP**:
 
 ```sh
 node scripts/license-notices.mjs
 npm run desktop:package
 ```
 
-Artifacts are written under `release/`. The [desktop workflow](.github/workflows/desktop.yml) also defines candidate builds for macOS Intel, Windows x64, and Linux x64. Configuration is not proof that those platforms work. Only advertise a download after its artifact, checksum, installation, launch, and restart checks are recorded. Read the [preview release record](docs/release-preview.md) for signing state, availability, and remaining gates.
+Artifacts are written under `release/`. Run `npm run desktop:verify`, then `node scripts/record-desktop-candidate.mjs` to exercise the actual packaged bytes and record checksums. The [desktop workflow](.github/workflows/desktop.yml) also builds and verifies macOS Intel, Windows x64 NSIS, and Linux x64 AppImage candidates. The [installer guide](docs/desktop-installers.md) describes exact coverage, commands and platform prerequisites. Configuration alone does not establish platform support. Only advertise a download after reviewing its installation evidence. Publisher signing and notarization remain unavailable; these are developer candidates.
 
 ## Development checks
 
@@ -73,11 +73,13 @@ python3 scripts/validate.py
 
 The [application workflow](.github/workflows/app.yml) runs application checks on Node 24. The desktop workflow produces candidates without publishing releases. Passing these checks does not replace rendered workflow, installation, recovery, or security verification.
 
+Browser tests start their own server and refuse to reuse an occupied port. Set `ZETTEL_TEST_PORT=4187` (or another free port) if another checkout is using the default 4173.
+
 ## Product direction and business model
 
 The first experience is a useful local workspace for independent makers and small software teams. The full ambition remains a work operating system with collaborative documents, relational tables, automation, advanced delivery planning, and customer-controlled enterprise deployment. [Product research](docs/product-research.md), the [capability ledger](docs/research/capability-ledger.md), and the [delivery plan](docs/delivery-plan.md) preserve that broader scope.
 
-The proposed model combines a free local core with a paid official signed desktop distribution/update/support offer, and future optional team hosting or AI services. **The displayed $49 desktop price is a hypothesis, not an active checkout or license entitlement.** Payments, activation, support/refund terms, signing, hosted collaboration, and recurring services need their own implementation and validation. Existing [Apache-2.0](LICENSE) source rights remain unchanged. See the [market strategy](docs/market-strategy.md) and [dated market evidence](docs/research/2026-10-05-market-evidence.md).
+The preview and local core are free. **No paid offer or checkout is active.** This branch's landing page presents the available free desktop preview; the earlier $49 official update/support idea remains a research hypothesis. The [updated research](docs/research/2026-10-07-desktop-market.md) and [launch playbook](docs/launch-playbook.md) compare optional paid services against that one-time offer, with explicit discovery and economic tests. Payments, activation, terms, signing, hosted collaboration, and recurring services need separate implementation and validation. Existing [Apache-2.0](LICENSE) source rights remain unchanged. The [market strategy](docs/market-strategy.md) retains the full product ambition.
 
 ## Contribute
 

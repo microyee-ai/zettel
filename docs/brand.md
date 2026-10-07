@@ -70,7 +70,9 @@ The original folded-ticket Z remains. Monochrome is the source of truth; app ico
 
 The browser workspace opens without registration and stores data in that browser. Export backups, and say plainly that automatic sync and hosted teams are not implemented. The macOS Apple Silicon alpha is an actual downloadable developer preview; it is ad-hoc signed for integrity but is not Developer ID signed or notarized. Link its release notes rather than implying a trusted commercial installer. Free source builds remain available under Apache-2.0.
 
-The proposed $49 commercial offer is not a live checkout. Final terms, licensing, official signing, support, and payment readiness require separate implementation and verification. Local AI requires the user's configured provider and has an explicit review step. MCP clients can make real local changes through tools. Never imply included AI credits or a hosted AI service.
+The source landing page now presents the free desktop preview. The earlier $49 official update/support proposal remains one option in the [October 7 pricing research](research/2026-10-07-desktop-market.md), alongside free desktop with optional services. No paid checkout is live. Final terms, official signing, support, and payment readiness require separate implementation and verification. Local AI requires the user's configured provider and has an explicit review step. MCP clients can make real local changes through tools. Never imply included AI credits or a hosted AI service.
+
+The [launch playbook](launch-playbook.md) adds an independent-builder audience, a context-recovery message experiment, and measured launch/discovery steps. Its proposed alternative headline is a test candidate, not a validated reason to discard this visual direction.
 
 ## Validation
 

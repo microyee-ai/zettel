@@ -1,0 +1,8 @@
+{
+  "artifact": "Zettel-0.1.0-alpha.3-arm64.dmg",
+  "sha256": "e47a80da3a2cedbede12cc92e51c4cbb8d4a1a9b5e6d0431d623e736230a985f",
+  "assessmentExitCode": 3,
+  "assessmentOutput": "mounted-candidate/Zettel.app: rejected",
+  "publisherTrust": "not-established",
+  "protectionsDisabled": false
+}

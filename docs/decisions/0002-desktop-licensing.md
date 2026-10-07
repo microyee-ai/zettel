@@ -1,5 +1,7 @@
 # ADR 0002: paid official desktop services with offline entitlements
 
+**Commercial reassessment, October 7:** The desktop preview remains free, and the source landing page now presents that available offer. [Refreshed research](../research/2026-10-07-desktop-market.md) compares free desktop with future optional services against this $49 proposal. The architecture below is a conditional design for the paid-offer experiment, not an approved sale or committed business model. Neither checkout nor hosted services are launched.
+
 Date: 2026-10-05. **Status: proposed architecture for the next implementation; no checkout, merchant configuration, entitlement service, or paid release exists.** Commercial terms and live activation require maintainer decisions and the evidence in [paid launch](../paid-launch.md). This extends [ADR 0001](0001-local-first-runtime.md) without changing the Apache-2.0 source license or making normal local work depend on a licensing server.
 
 ## Recommended offer
