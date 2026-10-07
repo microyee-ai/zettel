@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "product": "Zettel",
+  "version": "0.1.0-alpha.3",
+  "status": "passed",
+  "startedAt": "2026-10-07T20:41:37.588Z",
+  "artifact": {
+    "name": "Zettel Setup 0.1.0-alpha.3.exe",
+    "bytes": 111865082,
+    "sha256": "6ac0f2f8b71a675722b0ccab73694c4e50f8f1166cd83c582ef819697d44db4a"
+  },
+  "source": {
+    "commit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+    "trackedTreeDirty": true,
+    "trackedDiffSha256": "f37647892723e23cc32f9f666a56b334d76c3f050184df94a7eeb386793498d8",
+    "workflowRunUrl": "https://github.com/microyee-ai/zettel/actions/runs/37683698462"
+  },
+  "host": {
+    "platform": "windows",
+    "architecture": "x64",
+    "osRelease": "10.0.26100",
+    "node": "v24.21.0",
+    "githubActions": true,
+    "runnerImage": "win25-vs2026"
+  },
+  "installation": {
+    "status": "passed",
+    "method": "Actual NSIS installer run silently per-user into an isolated directory"
+  },
+  "smoke": {
+    "schemaVersion": 1,
+    "status": "passed",
+    "startedAt": "2026-10-07T20:41:58.391Z",
+    "executable": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\zettel-candidate-MeZwo9\\installed\\Zettel.exe",
+    "packaged": true,
+    "platform": "win32",
+    "architecture": "x64",
+    "checks": {
+      "embeddedBuildProvenance": true,
+      "runtimeMatchesRequestedMode": true,
+      "rendererIsolation": true,
+      "narrowPreload": true,
+      "sandboxDisablingFlagsAbsent": true,
+      "uiCreate": true,
+      "blockedNavigationAndPopup": true,
+      "secondLaunchUsesExistingWorkspace": true,
+      "gracefulQuit": true,
+      "persistedAfterRestart": true,
+      "bundledMcpSharedStorage": true,
+      "documentationNativeHandoff": true,
+      "nativeExport": true,
+      "exportExcludesServiceToken": true,
+      "guiResetRestore": true,
+      "restoredDataSurvivesRestart": true,
+      "renderedWorkspaceScreenshot": true,
+      "disposableDataCleaned": true
+    },
+    "runtime": {
+      "version": "0.1.0-alpha.3",
+      "packaged": true,
+      "architecture": "x64",
+      "electron": "44.5.1",
+      "node": "24.21.0",
+      "resourcesPath": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\zettel-candidate-MeZwo9\\installed\\resources",
+      "buildInfo": {
+        "version": "0.1.0-alpha.3",
+        "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+        "sourceDirty": false
+      },
+      "sandboxDisablingFlags": [],
+      "preferences": {
+        "sandbox": true,
+        "contextIsolation": true,
+        "nodeIntegration": false,
+        "webSecurity": true
+      }
+    },
+    "completedAt": "2026-10-07T20:42:04.819Z"
+  },
+  "cleanup": {
+    "status": "passed",
+    "nsisUninstall": "passed",
+    "nsisRegistrationAndShortcutsAbsent": true
+  },
+  "unverified": [
+    "Manual clean-host installation and native file dialogs",
+    "Publisher identity, notarization and OS trust prompts",
+    "Upgrade from an earlier supported version",
+    "Automatic updates",
+    "External AI provider",
+    "Interactive NSIS wizard and SmartScreen behavior"
+  ],
+  "buildProvenance": {
+    "version": "0.1.0-alpha.3",
+    "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+    "sourceDirty": false
+  },
+  "screenshot": {
+    "path": "verification/Zettel Setup 0.1.0-alpha.3.exe.png",
+    "sha256": "c91c3ddf0d3f474976663d05447275146cc01a29351dde7ca5f9daa8832d6e0c"
+  },
+  "completedAt": "2026-10-07T20:42:08.449Z"
+}

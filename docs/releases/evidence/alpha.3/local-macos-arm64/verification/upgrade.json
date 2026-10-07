@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "preparedAt": "2026-10-07T20:37:18.010Z",
+  "oldArtifact": {
+    "name": "Zettel-0.1.0-alpha.2-arm64-mac.zip",
+    "sha256": "b6a0f33add8860afdf42485b0cf07a59091bf93038f7f9409399ace1347ae8e1"
+  },
+  "oldRuntime": {
+    "version": "0.1.0-alpha.2",
+    "packaged": true,
+    "electron": "44.5.1",
+    "node": "24.21.0",
+    "architecture": "arm64",
+    "noSandbox": false,
+    "sandbox": true,
+    "buildInfo": null
+  },
+  "checks": {
+    "publishedOldArchiveDigest": true,
+    "oldSignatureIntegrity": true,
+    "oldSandboxEnabled": true,
+    "richFixtureViaAuthenticatedApi": true,
+    "oldNativeExportExact": true,
+    "oldFullQuitRestartExact": true,
+    "oldProcessStopped": true,
+    "upgradeExactFullSnapshot": true,
+    "upgradedNativeExportExact": true,
+    "upgradeFullQuitRestartExact": true,
+    "freshDirectoryWasEmpty": true,
+    "freshRestoreAllRecordsExact": true,
+    "existingActivityPreserved": true,
+    "restoreMetadataAsSpecified": true,
+    "freshRestoreFullQuitRestartExact": true,
+    "disposableWorkspaceRemoved": true
+  },
+  "counts": {
+    "projects": 1,
+    "cycles": 1,
+    "notes": 1,
+    "tickets": 2,
+    "comments": 1,
+    "activities": 1
+  },
+  "baselineSha256": "eb8ec9c9ca127f25b0941aa387110653992350bfd4bf4333815c7cffc238f47b",
+  "backupSha256": "9f48a59eb1393727fd337fc694287d8b819b779a711799b63fb644841ea774ca",
+  "newArtifact": {
+    "name": "Zettel-0.1.0-alpha.3-arm64.dmg",
+    "sha256": "e47a80da3a2cedbede12cc92e51c4cbb8d4a1a9b5e6d0431d623e736230a985f"
+  },
+  "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+  "scope": "Manual alpha.2 to alpha.3 application replacement on the same disposable SQLite/profile, then native backup import into a fresh directory; no automatic update or schema migration claim",
+  "unverified": [
+    "Publisher trust and Gatekeeper prompts",
+    "Interactive drag-to-Applications",
+    "Windows/Linux compatibility",
+    "Automatic update service"
+  ],
+  "newRuntime": {
+    "version": "0.1.0-alpha.3",
+    "packaged": true,
+    "electron": "44.5.1",
+    "node": "24.21.0",
+    "architecture": "arm64",
+    "noSandbox": false,
+    "sandbox": true,
+    "buildInfo": {
+      "version": "0.1.0-alpha.3",
+      "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+      "sourceDirty": false
+    }
+  },
+  "restoreMetadata": {
+    "revision": 1,
+    "newActivityCount": 1,
+    "action": "Workspace restored from backup"
+  },
+  "completedAt": "2026-10-07T20:44:04.053Z"
+}

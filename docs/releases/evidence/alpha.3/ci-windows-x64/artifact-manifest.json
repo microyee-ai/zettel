@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "product": "Zettel",
+  "version": "0.1.0-alpha.3",
+  "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+  "trackedTreeDirty": true,
+  "runUrl": "https://github.com/microyee-ai/zettel/actions/runs/37683698462",
+  "platform": "windows",
+  "architecture": "x64",
+  "nodeVersion": "v24.21.0",
+  "electronVersion": "44.5.1",
+  "publisherSigning": "Not configured; developer build candidate",
+  "publishedRelease": false,
+  "installVerification": {
+    "status": "passed",
+    "scope": "Automated extraction/install and packaged-app checks only; see per-artifact evidence and unverified gates",
+    "artifacts": [
+      {
+        "artifact": "Zettel Setup 0.1.0-alpha.3.exe",
+        "artifactSha256": "6ac0f2f8b71a675722b0ccab73694c4e50f8f1166cd83c582ef819697d44db4a",
+        "status": "passed",
+        "evidence": "verification/Zettel Setup 0.1.0-alpha.3.exe.json",
+        "evidenceSha256": "193011465392a9e7ce884105f5db28d3a9cd86aabc5a25939cb48638a60f6697",
+        "buildProvenance": {
+          "version": "0.1.0-alpha.3",
+          "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+          "sourceDirty": false
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "Zettel Setup 0.1.0-alpha.3.exe",
+      "bytes": 111865082,
+      "sha256": "6ac0f2f8b71a675722b0ccab73694c4e50f8f1166cd83c582ef819697d44db4a"
+    },
+    {
+      "name": "THIRD_PARTY_NOTICES.txt",
+      "bytes": 153861,
+      "sha256": "fe6cbeee3a7fe241f6ce25d8a6859f00913403ad734f54742392ab48b7e91461"
+    },
+    {
+      "name": "sbom.cdx.json",
+      "bytes": 77009,
+      "sha256": "895deed52da1f578d190c73cfe01f142472deee41a04aa7260eebe3bb8796d74"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 **A sharper way to move work forward.** A local-first workspace for tickets, projects, and the next thing you want to ship.
 
-**Status: early runnable preview; this branch prepares `0.1.0-alpha.3` installers.** The published preview remains `0.1.0-alpha.2`. The repository contains a React web application, a SQLite localhost service, an Electron desktop build, and an MCP bridge. Installation, browser behavior, deployment, and platform release gates are tracked separately in the [preview release record](docs/release-preview.md), [installer guide](docs/desktop-installers.md), and [verification record](docs/verification.md). This is not an enterprise-ready release or a full Linear/Coda alternative.
+**Status: early runnable preview; this branch contains verified `0.1.0-alpha.3` installer candidates.** The published preview remains `0.1.0-alpha.2`. The repository contains a React web application, a SQLite localhost service, an Electron desktop build, and an MCP bridge. See the [alpha.3 installer evidence and remaining gates](docs/releases/0.1.0-alpha.3.md), [published preview record](docs/release-preview.md), [installer guide](docs/desktop-installers.md), and [verification record](docs/verification.md). This is not an enterprise-ready release or a full Linear/Coda alternative.
 
 ## What the preview contains
 

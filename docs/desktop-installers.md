@@ -1,5 +1,7 @@
 # Desktop candidate verification
 
+Latest actual results: [alpha.3 candidate record](releases/0.1.0-alpha.3.md), with all four platform jobs passing and separately recorded Mac upgrade/restore. Build commands below produce new bytes that need their own evidence; they do not inherit the earlier artifacts' checksums or results.
+
 The distribution contract is a macOS ZIP and drag-to-Applications DMG for arm64 and x64, a per-user assisted Windows x64 NSIS installer, and a Linux x64 AppImage. These are candidate targets, not an announcement that every platform is supported. The existing public alpha.2 macOS release remains unchanged. [Issue #12](https://github.com/microyee-ai/zettel/issues/12) owns the candidate verification gate; [ADR 0001](decisions/0001-local-first-runtime.md) defines the runtime boundaries.
 
 ## Build and check an artifact

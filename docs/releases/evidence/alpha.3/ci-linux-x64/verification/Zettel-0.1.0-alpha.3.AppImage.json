@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "product": "Zettel",
+  "version": "0.1.0-alpha.3",
+  "status": "passed",
+  "startedAt": "2026-10-07T20:40:29.273Z",
+  "artifact": {
+    "name": "Zettel-0.1.0-alpha.3.AppImage",
+    "bytes": 125670818,
+    "sha256": "d16b78d2961994dc633f77b8f1edfe4cb177e69fce80b915a5d4f00886255a11"
+  },
+  "source": {
+    "commit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+    "trackedTreeDirty": true,
+    "trackedDiffSha256": "0bdd8e143d389fa594e19726d85840313c1fc174207c8fe3e4b7a7745833e703",
+    "workflowRunUrl": "https://github.com/microyee-ai/zettel/actions/runs/37683698462"
+  },
+  "host": {
+    "platform": "linux",
+    "architecture": "x64",
+    "osRelease": "6.17.0-1022-azure",
+    "node": "v24.21.0",
+    "githubActions": true,
+    "runnerImage": "ubuntu24"
+  },
+  "installation": {
+    "status": "passed",
+    "method": "Actual AppImage self-extracted; launch the Electron binary shipped in that AppDir",
+    "sandboxHelper": "Bundled chrome-sandbox root-owned mode 4755 in disposable AppDir"
+  },
+  "smoke": {
+    "schemaVersion": 1,
+    "status": "passed",
+    "startedAt": "2026-10-07T20:40:31.502Z",
+    "executable": "/tmp/zettel-candidate-bDUDS4/squashfs-root/zettel",
+    "packaged": true,
+    "platform": "linux",
+    "architecture": "x64",
+    "checks": {
+      "embeddedBuildProvenance": true,
+      "runtimeMatchesRequestedMode": true,
+      "rendererIsolation": true,
+      "narrowPreload": true,
+      "sandboxDisablingFlagsAbsent": true,
+      "uiCreate": true,
+      "blockedNavigationAndPopup": true,
+      "secondLaunchUsesExistingWorkspace": true,
+      "gracefulQuit": true,
+      "persistedAfterRestart": true,
+      "bundledMcpSharedStorage": true,
+      "documentationNativeHandoff": true,
+      "nativeExport": true,
+      "exportExcludesServiceToken": true,
+      "guiResetRestore": true,
+      "restoredDataSurvivesRestart": true,
+      "renderedWorkspaceScreenshot": true,
+      "disposableDataCleaned": true
+    },
+    "runtime": {
+      "version": "0.1.0-alpha.3",
+      "packaged": true,
+      "architecture": "x64",
+      "electron": "44.5.1",
+      "node": "24.21.0",
+      "resourcesPath": "/tmp/zettel-candidate-bDUDS4/squashfs-root/resources",
+      "buildInfo": {
+        "version": "0.1.0-alpha.3",
+        "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+        "sourceDirty": false
+      },
+      "sandboxDisablingFlags": [],
+      "preferences": {
+        "sandbox": true,
+        "contextIsolation": true,
+        "nodeIntegration": false,
+        "webSecurity": true
+      }
+    },
+    "completedAt": "2026-10-07T20:40:44.175Z"
+  },
+  "cleanup": {
+    "status": "passed"
+  },
+  "unverified": [
+    "Manual clean-host installation and native file dialogs",
+    "Publisher identity, notarization and OS trust prompts",
+    "Upgrade from an earlier supported version",
+    "Automatic updates",
+    "External AI provider",
+    "FUSE mount/direct AppImage launch, desktop integration and other Linux distributions"
+  ],
+  "buildProvenance": {
+    "version": "0.1.0-alpha.3",
+    "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+    "sourceDirty": false
+  },
+  "screenshot": {
+    "path": "verification/Zettel-0.1.0-alpha.3.AppImage.png",
+    "sha256": "9c1799a325601c484842d66e2bd91dbc9b2dbb924de38bc7ab2b71813195aa11"
+  },
+  "completedAt": "2026-10-07T20:40:44.242Z"
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "product": "Zettel",
+  "version": "0.1.0-alpha.3",
+  "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+  "trackedTreeDirty": true,
+  "runUrl": "https://github.com/microyee-ai/zettel/actions/runs/37683698462",
+  "platform": "linux",
+  "architecture": "x64",
+  "nodeVersion": "v24.21.0",
+  "electronVersion": "44.5.1",
+  "publisherSigning": "Not configured; developer build candidate",
+  "publishedRelease": false,
+  "installVerification": {
+    "status": "passed",
+    "scope": "Automated extraction/install and packaged-app checks only; see per-artifact evidence and unverified gates",
+    "artifacts": [
+      {
+        "artifact": "Zettel-0.1.0-alpha.3.AppImage",
+        "artifactSha256": "d16b78d2961994dc633f77b8f1edfe4cb177e69fce80b915a5d4f00886255a11",
+        "status": "passed",
+        "evidence": "verification/Zettel-0.1.0-alpha.3.AppImage.json",
+        "evidenceSha256": "b37c727374b531bdc83657af5f3927f7734d386d8c94b910a61af94fc2251c53",
+        "buildProvenance": {
+          "version": "0.1.0-alpha.3",
+          "sourceCommit": "ec1bb62709f9c392b5ddf52549cbe004890b26e7",
+          "sourceDirty": false
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "name": "Zettel-0.1.0-alpha.3.AppImage",
+      "bytes": 125670818,
+      "sha256": "d16b78d2961994dc633f77b8f1edfe4cb177e69fce80b915a5d4f00886255a11"
+    },
+    {
+      "name": "THIRD_PARTY_NOTICES.txt",
+      "bytes": 153861,
+      "sha256": "fe6cbeee3a7fe241f6ce25d8a6859f00913403ad734f54742392ab48b7e91461"
+    },
+    {
+      "name": "sbom.cdx.json",
+      "bytes": 77009,
+      "sha256": "fb1cb027ce5a16058b3192b1f5cbb7f5c7fd75e74b756d48d2d8d72494a200c9"
+    }
+  ]
+}

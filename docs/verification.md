@@ -1,5 +1,7 @@
 # Independent verification record
 
+**October 7 desktop follow-up:** [Alpha.3 release evidence](releases/0.1.0-alpha.3.md) records all four platform candidate jobs passing, local Mac DMG/ZIP checks, independent previous-release upgrade and fresh-directory restore, and explicit publisher-trust rejection. The [runtime review](research/2026-10-07-desktop-review.md) records corrected lifecycle/storage issues and the earlier harness's sandbox-evidence limitation. These newer results are scoped to source `ec1bb62709f9c392b5ddf52549cbe004890b26e7`; the historical October 5 findings below are not blanket current-release certification.
+
 Review date: **2026-10-05**. Reviewer: independent verifier/security reviewer. Scope: [ZET-101, ZET-103 and ZET-105 acceptance slices](implementation-brief.md), against [ADR 0001](decisions/0001-local-first-runtime.md) and the full [capability ledger](research/capability-ledger.md). This review does not establish full product completion, enterprise readiness, a security certification or platform release approval.
 
 Repository base: `f2ebeea5d0688330933c7c0ebb72b24b24bc00eb`. Reviewed implementation is a working tree being edited concurrently. Results below attach to the observed files and live deployment on the review date and must be refreshed after relevant changes. The reviewer did not modify implementation files.
