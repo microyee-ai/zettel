@@ -1,6 +1,6 @@
 {
   "name": "zettel",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "private": true,
   "description": "Local-first work management for people who make things",
   "type": "module",
@@ -19,7 +19,8 @@
     "mcp": "node --experimental-sqlite --import tsx server/mcp.ts",
     "desktop:build": "node scripts/build-desktop.mjs",
     "desktop": "npm run build && npm run desktop:build && electron .",
-    "desktop:package": "npm run build && npm run desktop:build && node scripts/license-notices.mjs && electron-builder --mac zip --arm64 --publish never",
+    "desktop:package": "npm run build && npm run desktop:build && node scripts/license-notices.mjs && electron-builder --mac dmg zip --arm64 --publish never",
+    "desktop:verify": "node scripts/verify-desktop-candidate.mjs",
     "test:e2e": "playwright test",
     "icons": "node scripts/generate-icons.mjs"
   },
@@ -63,6 +64,7 @@
     "mac": {
       "category": "public.app-category.productivity",
       "target": [
+        "dmg",
         "zip"
       ],
       "icon": "build/icon.icns",
@@ -74,6 +76,23 @@
       ],
       "icon": "build/icon.ico"
     },
+    "dmg": {
+      "title": "Install Zettel",
+      "contents": [
+        { "x": 130, "y": 220 },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": false
+    },
     "linux": {
       "target": [
         "AppImage"
@@ -83,6 +102,10 @@
     },
     "npmRebuild": false,
     "extraResources": [
+      {
+        "from": "LICENSE",
+        "to": "LICENSE"
+      },
       {
         "from": "dist-server/mcp.mjs",
         "to": "mcp.mjs"

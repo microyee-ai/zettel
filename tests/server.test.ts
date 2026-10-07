@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { chmodSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { DatabaseSync } from 'node:sqlite';
+import { createConnection } from 'node:net';
+import { once } from 'node:events';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { request as httpRequest } from 'node:http';
@@ -63,6 +66,46 @@ test('two database connections serialize compare-and-swap writes', () => {
     const left = a.load(); const right = b.load(); left.workspace.name = 'Winning edit'; right.workspace.name = 'Stale edit';
     a.save(left, 0); assert.throws(() => b.save(right, 0), RevisionConflict); assert.equal(b.load().workspace.name, 'Winning edit');
   } finally { a.close(); b.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('SQLite database and live sidecars are private even in an existing shared directory', { skip: process.platform === 'win32' }, () => {
+  const dir = mkdtempSync(join(tmpdir(), 'zettel-private-')); chmodSync(dir, 0o755);
+  const file = join(dir, 'workspace.sqlite'); const store = new WorkspaceStore(file);
+  try {
+    const data = store.load(); data.issues.push(createIssue(data, { title: 'Private work' })); store.save(data, 0);
+    for (const suffix of ['', '-wal', '-shm']) assert.equal(statSync(file + suffix).mode & 0o777, 0o600, `Unsafe mode: ${suffix || 'database'}`);
+  } finally { store.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('a newer database is rejected without changing its bytes or journal mode', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'zettel-future-')); const file = join(dir, 'workspace.sqlite');
+  try {
+    const future = new DatabaseSync(file);
+    future.exec('CREATE TABLE future_data (value TEXT); INSERT INTO future_data VALUES (\'keep this\'); PRAGMA user_version=2;');
+    future.close();
+    const original = readFileSync(file);
+    assert.throws(() => new WorkspaceStore(file), /newer Zettel version/);
+    assert.deepEqual(readFileSync(file), original);
+    const check = new DatabaseSync(file);
+    try { assert.equal(check.prepare('PRAGMA journal_mode').get()!.journal_mode, 'delete'); }
+    finally { check.close(); }
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('quitting closes incomplete HTTP requests within a bounded drain and can be repeated', async () => {
+  const store = new WorkspaceStore(':memory:'); const service = await startLocalService({ store });
+  const url = new URL(service.origin); const socket = createConnection({ host: url.hostname, port: Number(url.port) });
+  socket.on('error', () => {});
+  try {
+    await once(socket, 'connect');
+    const accepted = once(service.server, 'request');
+    socket.write(`PUT /api/workspace HTTP/1.1\r\nHost: ${url.host}\r\nAuthorization: Bearer ${service.token}\r\nContent-Type: application/json\r\nContent-Length: 1000\r\n\r\n{`);
+    await accepted;
+    const started = Date.now();
+    await service.close(); await service.close();
+    assert.ok(Date.now() - started < 5000, 'An incomplete request must not hang app quit');
+    assert.equal(service.server.listening, false); assert.equal(store.load().revision, 0);
+  } finally { socket.destroy(); await service.close(); store.close(); }
 });
 
 test('HTTP authenticates, enforces origin/host and returns conflicts without data loss', async () => {

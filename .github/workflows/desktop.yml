@@ -24,11 +24,11 @@ jobs:
           - runner: macos-15
             platform: macos
             arch: arm64
-            builder_args: --mac zip --arm64
+            builder_args: --mac dmg zip --arm64
           - runner: macos-15-intel
             platform: macos
             arch: x64
-            builder_args: --mac zip --x64
+            builder_args: --mac dmg zip --x64
           - runner: windows-2025
             platform: windows
             arch: x64
@@ -62,48 +62,40 @@ jobs:
         run: node scripts/license-notices.mjs
       - name: Package candidate without publishing
         run: npx --no-install electron-builder ${{ matrix.builder_args }} --publish never
+      - name: Install Linux display dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install --yes xvfb libgtk-3-0 libnss3 libasound2t64
+      - name: Exercise the actual installed or extracted distributions
+        env:
+          ZETTEL_CANDIDATE_ARCH: ${{ matrix.arch }}
+          ZETTEL_WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [[ "${{ runner.os }}" == "Linux" ]]; then
+            xvfb-run -a node scripts/verify-desktop-candidate.mjs --linux-sandbox-helper
+          else
+            node scripts/verify-desktop-candidate.mjs
+          fi
       - name: Record checksums and candidate provenance
+        if: always()
         env:
           ZETTEL_CANDIDATE_PLATFORM: ${{ matrix.platform }}
           ZETTEL_CANDIDATE_ARCH: ${{ matrix.arch }}
           ZETTEL_WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          node --input-type=module <<'NODE'
-          import { createHash } from 'node:crypto';
-          import { copyFile, readdir, readFile, stat, writeFile } from 'node:fs/promises';
-          const pkg = JSON.parse(await readFile('package.json', 'utf8'));
-          const names = (await readdir('release')).filter(name => /\.(zip|exe|AppImage)$/.test(name)).sort();
-          if (!names.length) throw new Error('No packaged candidate was produced');
-          for (const name of ['THIRD_PARTY_NOTICES.txt', 'sbom.cdx.json']) {
-            await copyFile(`build/${name}`, `release/${name}`);
-            names.push(name);
-          }
-          const files = [];
-          for (const name of names) {
-            const path = `release/${name}`;
-            files.push({ name, bytes: (await stat(path)).size, sha256: createHash('sha256').update(await readFile(path)).digest('hex') });
-          }
-          await writeFile('release/SHA256SUMS', files.map(file => `${file.sha256}  ${file.name}`).join('\n') + '\n');
-          await writeFile('release/artifact-manifest.json', JSON.stringify({
-            product: 'Zettel', version: pkg.version, sourceCommit: process.env.GITHUB_SHA,
-            runUrl: process.env.ZETTEL_WORKFLOW_RUN_URL,
-            platform: process.env.ZETTEL_CANDIDATE_PLATFORM, architecture: process.env.ZETTEL_CANDIDATE_ARCH,
-            nodeVersion: process.version, electronVersion: pkg.devDependencies.electron,
-            publisherSigning: 'Not configured; developer build candidate',
-            installVerification: 'Not exercised by this workflow',
-            publishedRelease: false, files,
-          }, null, 2) + '\n');
-          NODE
+        run: node scripts/record-desktop-candidate.mjs
       - name: Upload candidate and checksums
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: zettel-${{ matrix.platform }}-${{ matrix.arch }}-${{ github.sha }}
           path: |
             release/*.zip
+            release/*.dmg
             release/*.exe
             release/*.AppImage
             release/SHA256SUMS
             release/artifact-manifest.json
+            release/verification/*.json
+            release/verification/*.png
             release/THIRD_PARTY_NOTICES.txt
             release/sbom.cdx.json
           if-no-files-found: error

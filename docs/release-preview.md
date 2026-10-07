@@ -1,5 +1,7 @@
 # Preview release record: 0.1.0-alpha.2
 
+**Evidence correction, 2026-10-07:** The old Electron smoke checked sandbox preferences but omitted Playwright's `chromiumSandbox: true`; its launcher implicitly disabled the Chromium sandbox. Historical sandbox assertions below therefore establish configuration only. The new candidate harness checks both preferences and launch flags. See the [independent review](research/2026-10-07-desktop-review.md) and [installer verification guide](desktop-installers.md). Published alpha.2 artifacts remain unchanged.
+
 Prepared 2026-10-05. **Status: alpha.2 web and macOS Apple Silicon developer preview published and exercised.** The web preview is [zettel-iota.vercel.app](https://zettel-iota.vercel.app/). Publication and packaged-runtime evidence is recorded separately below; neither this document nor configured CI establishes product readiness.
 
 ## User-visible changes

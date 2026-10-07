@@ -31,11 +31,14 @@ export async function startLocalService(options: LocalServiceOptions) {
   const token = options.token || randomBytes(32).toString('hex');
   if (token.length < 32) throw new Error('Local service token must contain at least 32 characters.');
   let origin = '';
+  let stopping = false;
+  let closing: Promise<void> | undefined;
   const server = http.createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'no-referrer');
     res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
     res.setHeader('Content-Security-Policy', csp);
+    if (stopping) return json(res, 503, { error: 'Zettel is closing. Reopen the app before saving.' });
     try {
       const allowedHosts = [new URL(origin).host, new URL(origin.replace('127.0.0.1', 'localhost')).host];
       if (!allowedHosts.includes(req.headers.host || '')) return json(res, 403, { error: 'Invalid local Host' });
@@ -86,5 +89,16 @@ export async function startLocalService(options: LocalServiceOptions) {
   const address = server.address();
   if (!address || typeof address === 'string') throw new Error('Local server did not bind a port');
   origin = `http://127.0.0.1:${address.port}`;
-  return { origin, token, server, close: () => new Promise<void>((resolveClose, reject) => server.close(error => error ? reject(error) : resolveClose())) };
+  return { origin, token, server, close: () => {
+    if (closing) return closing;
+    stopping = true;
+    closing = new Promise<void>((resolveClose, reject) => {
+      // Incomplete loopback requests must not leave a quitting desktop process
+      // hidden for the entire HTTP request timeout. Completed saves are atomic.
+      const deadline = setTimeout(() => server.closeAllConnections(), 1000);
+      deadline.unref();
+      server.close(error => { clearTimeout(deadline); error ? reject(error) : resolveClose(); });
+    });
+    return closing;
+  } };
 }

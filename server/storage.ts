@@ -1,5 +1,5 @@
 import { DatabaseSync } from 'node:sqlite';
-import { mkdirSync, chmodSync } from 'node:fs';
+import { mkdirSync, chmodSync, existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { emptyWorkspace, parseWorkspace, type WorkspaceData } from '../shared/schema.js';
 
@@ -15,9 +15,16 @@ export class WorkspaceStore {
     if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
     this.db = new DatabaseSync(path);
     try {
-      this.db.exec('PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL;');
+      this.db.exec('PRAGMA busy_timeout=5000;');
       const version = this.db.prepare('PRAGMA user_version').get() as { user_version: number };
       if (version.user_version > 1) throw new Error('This workspace requires a newer Zettel version.');
+      // SQLite inherits the database mode when creating WAL/SHM sidecars. Set it
+      // before entering WAL mode, including when the supplied directory is shared.
+      if (path !== ':memory:') {
+        chmodSync(path, 0o600);
+        for (const suffix of ['-wal', '-shm']) if (existsSync(path + suffix)) chmodSync(path + suffix, 0o600);
+      }
+      this.db.exec('PRAGMA journal_mode=WAL;');
       this.db.exec(`CREATE TABLE IF NOT EXISTS workspace (id INTEGER PRIMARY KEY CHECK(id=1), revision INTEGER NOT NULL, data TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS recovery (revision INTEGER PRIMARY KEY, saved_at TEXT NOT NULL, data TEXT NOT NULL);
         PRAGMA user_version=1;`);
